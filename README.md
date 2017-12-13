@@ -6,18 +6,13 @@
 
 # Steps to run: #
 
-The /src directory contains the react app and also a folder /express-api
-that holds the express api endpoint.
+1. npm install
+2. npm start
 
-// Nodemon will watch files in the express-script directory and restart
-// the server when files change
-1. npm install nodemon -g  
+This will open two command prompt windows. One running the react app and the
+other running the express server.
 
-// Starts express
-2. In the express-api folder run: npm start
-
-// Starts react app
-3. In the /src folder run: npm start
+Nodemon is installed as a dev dependence, so no need to manually install it.
 
 Then localhost:3000/ will take you to the home page.
 
