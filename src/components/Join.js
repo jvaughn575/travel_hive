@@ -1,13 +1,18 @@
 import React from 'react';
-import { Form, Input,  Icon, Select, Row, Col, Button } from 'antd';
+import { Form, Input, Icon,Select, Row, Col, Button } from 'antd';
 
 const FormItem = Form.Item;
 
 class RegistrationForm extends React.Component {
-  state = {
-    confirmDirty: false,
-    autoCompleteResult: [],
+  constructor(props) {
+    super(props);
+    this.state = {
+      confirmDirty: false,
+      autoCompleteResult: [],
+    }
   };
+
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -79,7 +84,7 @@ class RegistrationForm extends React.Component {
             <Input />
           )}
         </FormItem>
-      <FormItem
+        <FormItem
           {...formItemLayout}
           label="E-mail"
         >
@@ -123,7 +128,7 @@ class RegistrationForm extends React.Component {
         </FormItem>
 
         <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">Register</Button>
+          <Button type="primary" htmlType="submit">Join</Button>
         </FormItem>
       </Form>
     );

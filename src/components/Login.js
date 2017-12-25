@@ -4,7 +4,7 @@ import { Form, Icon, Input, Button, Checkbox } from 'antd';
 const FormItem = Form.Item;
 
 class LoginForm extends React.Component {
-  handleSubmit = (e) => {
+  handleSubmit(e) {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -40,9 +40,9 @@ class LoginForm extends React.Component {
           )}
           <a className="login-form-forgot" href="">Forgot password</a>
           <Button type="primary" htmlType="submit" className="login-form-button">
-            Log in
+            Login
           </Button>
-          Or <a href="./Register">register now!</a>
+          Or <a href="./Join">Join Now!</a>
         </FormItem>
       </Form>
     );
