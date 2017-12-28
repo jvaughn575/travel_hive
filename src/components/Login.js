@@ -42,41 +42,11 @@ class LoginForm extends React.Component {
           <Button type="primary" htmlType="submit" className="login-form-button">
             Login
           </Button>
-          Or <a href="./Join">Join Now!</a>
+          Or <a href="./join">Join Now!</a>
         </FormItem>
       </Form>
     );
   }
 }
 
-const WrappedLoginForm = Form.create()(LoginForm);
-
-export default WrappedLoginForm;
-// import { Input, Button } from 'antd';
-//
-// class Login extends React.Component {
-//   state = {
-//   username:'',
-//   password:'',
-// }
-//
-//   render() {
-//       return (
-//         <div>
-//         <div>LOGIN PAGE</div>
-//         <br />
-//           <Input
-//             name='username'
-//             placeholder='Username' />
-//           <Input
-//             name='password'
-//             placeholder='Password'
-//             type='password' />
-//           <br />
-//           <Button type="primary">Join</Button>
-//         </div>
-//       );
-//     }
-//   }
-//
-// export default Login;
+export const WrappedLoginForm = Form.create()(LoginForm);

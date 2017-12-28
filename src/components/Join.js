@@ -69,7 +69,6 @@ class RegistrationForm extends React.Component {
       },
     };
 
-
     return (
       <Form onSubmit={this.handleSubmit}>
         <FormItem
@@ -135,39 +134,4 @@ class RegistrationForm extends React.Component {
   }
 }
 
-const WrappedRegistrationForm = Form.create()(RegistrationForm);
-
-export default WrappedRegistrationForm;
-
-// import { Input, Button } from 'antd';
-//
-// class Register extends React.Component {
-//   state = {
-//   username:'',
-//   email:'',
-//   password:'',
-// }
-//
-//   render() {
-//       return (
-//         <div>
-//         <div>REGISTER PAGE</div>
-//         <br />
-//           <Input
-//             name='username'
-//             placeholder='Name' />
-//           <Input
-//             name='email'
-//             placeholder='Email' />
-//           <Input
-//             name='password'
-//             placeholder='Password'
-//             type='password' />
-//           <br />
-//           <Button type="primary">Join</Button>
-//         </div>
-//       );
-//     }
-//   }
-//
-// export default Register;
+export const WrappedRegistrationForm = Form.create()(RegistrationForm);
