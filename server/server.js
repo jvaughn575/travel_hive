@@ -1,9 +1,9 @@
-const express = require('express');
+
+import express from 'express';
+import passport from '../config/passportStrategy';
+
 const app = express();
 const port = process.env.PORT || 3001;
-
-const passport = require('passport');
-require('../config/passportStrategy')(passport);
 
 const flash = require('connect-flash')
 

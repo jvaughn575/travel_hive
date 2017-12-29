@@ -1,10 +1,9 @@
-const userDB = require('./userDB');
-const Sequelize = require('sequelize');
-const bcrypt = require('bcrypt-nodejs');
-
+import userDB from './userDB';
+import Sequelize from 'sequelize';
+import bcrypt from 'bcrypt-nodejs';
 
 // Model definition
-var User = userDB.userDB.define('user',{
+const User = userDB.define('user',{
     username: {
         type: Sequelize.STRING
     },
@@ -31,6 +30,4 @@ User.sync({force:true}).then(() => {
     });
 }); 
 
-module.exports = {
-    User: User,
-}
+export default User; 

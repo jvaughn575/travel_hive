@@ -20,8 +20,4 @@ userDB
         console.error('Unable to connect to the database:', err);    
     });
 
-module.exports = {
-    userDB: userDB,
-    
-    
-}
+export default userDB;
