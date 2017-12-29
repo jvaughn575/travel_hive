@@ -1,17 +1,44 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3001;
+
+const passport = require('passport');
+require('../config/passportStrategy')(passport);
+
+const flash = require('connect-flash')
+
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
-var port = process.env.PORT || 3001;
+// Passport requirements
+// Not secure must change before production
+app.use(session({ secret: 'jk_travelhive'}))
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 
-var router = express.Router();
+// Router
+const router = express.Router();
 
+// Routes
 router.get('/version', function(req, res){
     res.json({ version: "1.0.0"});
 });
+
+router.post('/join', 
+    passport.authenticate('local-signup'),
+    function(req, res) {
+        res.json({
+            code: "200"
+            
+        });
+    
+    });  
 
 // Register all routes with api prefix
 app.use('/api', router);
