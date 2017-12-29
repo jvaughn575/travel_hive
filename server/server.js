@@ -30,16 +30,14 @@ router.get('/version', function(req, res){
     res.json({ version: "1.0.0"});
 });
 
-router.post('/join', 
+router.post('/join',
     passport.authenticate('local-signup'),
-    function(req, res) {
-        res.json({
+    (req, res) => {        
+        return res.json({
             code: "200"
-            
         });
+    });
     
-    });  
-
 // Register all routes with api prefix
 app.use('/api', router);
 
