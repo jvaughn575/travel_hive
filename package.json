@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^3.0.2",
+    "axios": "^0.17.1",
     "bcrypt-nodejs": "0.0.3",
     "config": "^1.28.1",
     "connect-flash": "^0.1.1",
