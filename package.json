@@ -4,20 +4,35 @@
   "private": true,
   "dependencies": {
     "antd": "^3.0.2",
+    "bcrypt-nodejs": "0.0.3",
+    "config": "^1.28.1",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "mysql": "^2.15.0",
+    "mysql2": "^1.5.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.17"
+    "react-scripts": "1.0.17",
+    "sequelize": "^4.28.6"
   },
   "scripts": {
-    "start": "start react-scripts start && start nodemon server.js",
+    "start": "cross-env react-scripts start",
+    "server": "cross-env NODE_ENV=development nodemon --exec babel-node ./server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:3001",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "cross-env": "^5.1.3",
     "eslint": "4.9.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "2.7.0",

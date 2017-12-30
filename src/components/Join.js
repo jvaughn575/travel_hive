@@ -17,6 +17,21 @@ class RegistrationForm extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        let body = JSON.stringify({          
+          username: values.userName,
+          email: values.email,
+          password: values.password  
+         });
+        fetch('/api/join', {
+          method: 'POST',
+          body: body
+        })
+         .then((response) => {          
+          console.log(response);
+         })
+         .catch((error) => {
+          console.log(error); 
+         });
       }
     });
   }
