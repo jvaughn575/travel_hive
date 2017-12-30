@@ -16,8 +16,14 @@ const User = userDB.define('user',{
 });  
 
 // user password encryption
-User.generateHash = function(password) {
+User.generateHash = (password) => {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+
+// verify if password is correct
+User.validPassword = (password,userPassword) => {
+    console.log("Validating Password", userPassword);
+    return bcrypt.compareSync(password, userPassword);
 };
 
 // Some mock data. If user table exist 'force' equals true will drop it first

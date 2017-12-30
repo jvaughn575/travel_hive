@@ -24,6 +24,7 @@ class RegistrationForm extends React.Component {
           password: values.password  
          })
          .then((response) => {
+          console.log(response.flash);
           console.log(response);
          })
          .catch((error) => {
