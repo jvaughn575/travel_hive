@@ -48,7 +48,6 @@ export const Header = () => (
     <p className="App-intro">
             Inspire Your Inner Explorer
     </p>
-
   </div>
 );
 
