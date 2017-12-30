@@ -15,7 +15,14 @@ import {WrappedLoginForm} from './components/Login';
 const DefaultLayout = ({children}) => (
   <div>
      <Header />
+     <ul>
+       <li><Link to="/join">Join</Link></li>
+       <li><Link to="/login">Login</Link></li>
+       <li><Link to="/inspiration">Inspiration</Link></li>
+     </ul>
+     <br />
      {children}
+     <br />
      This is a FOOTER
  </div>
 );
@@ -24,32 +31,24 @@ const App = () => (
 <Router>
 <DefaultLayout>
   <div>
-    <ul>
-      <li><Link to="/join">Join</Link></li>
-      <li><Link to="/login">Login</Link></li>
-      <li><Link to="/inspiration">Inspiration</Link></li>
-    </ul>
         <Route path="/join" component={WrappedRegistrationForm} />
         <Route path="/login" component={WrappedLoginForm} />
         <Route path="/inspiration" component={Inspiration} />
         <Route path="/api/version" component={ApiVersion} />
-
-
   </div>
 </DefaultLayout>
 </Router>
 );
 
-export const Header = ({ children }) => (
+export const Header = () => (
   <div className="App">
     <header className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
     </header>
-
     <p className="App-intro">
-            Inspire Your Inner Explorer​
+            Inspire Your Inner Explorer
     </p>
-    {children}
+
   </div>
 );
 
