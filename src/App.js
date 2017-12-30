@@ -24,16 +24,16 @@ const App = () => (
 <Router>
 <DefaultLayout>
   <div>
-      <Route path="/join" component={WrappedRegistrationForm} />
-      <Route path="/login" component={WrappedLoginForm} />
-      <Route path="/inspiration" component={Inspiration} />
-      <Route path="/api/version" component={ApiVersion} />
-
     <ul>
       <li><Link to="/join">Join</Link></li>
       <li><Link to="/login">Login</Link></li>
       <li><Link to="/inspiration">Inspiration</Link></li>
     </ul>
+        <Route path="/join" component={WrappedRegistrationForm} />
+        <Route path="/login" component={WrappedLoginForm} />
+        <Route path="/inspiration" component={Inspiration} />
+        <Route path="/api/version" component={ApiVersion} />
+
 
   </div>
 </DefaultLayout>
