@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import { Form, Input, Icon ,Select, Row, Col, Button } from 'antd';
 
 const FormItem = Form.Item;
@@ -18,13 +17,16 @@ class RegistrationForm extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        axios.post('/api/join', {
+        let body = JSON.stringify({          
           username: values.userName,
           email: values.email,
           password: values.password  
-         })
-         .then((response) => {
-          console.log(response.flash);
+         });
+        fetch('/api/join', {
+          method: 'POST',
+          body: body
+        })
+         .then((response) => {          
           console.log(response);
          })
          .catch((error) => {

@@ -33,7 +33,7 @@ router.get('/version', function(req, res){
 router.post('/join', (req, res, next) => 
     passport.authenticate('local-signup', (err, user, response) => {
         res.status(response.code).json({  
-            code: response.code.toString(),          
+            code: response.code,          
             message: response.message    
         });
      })(req, res, next)
@@ -42,7 +42,7 @@ router.post('/join', (req, res, next) =>
 router.post('/login', (req, res, next) => 
     passport.authenticate('local-login', (err, user, response) => {
         res.status(response.code).json({  
-            code: response.code.toString(),          
+            code: response.code,          
             message: response.message    
         });
     })(req, res, next)

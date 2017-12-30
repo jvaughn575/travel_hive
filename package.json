@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "antd": "^3.0.2",
-    "axios": "^0.17.1",
     "bcrypt-nodejs": "0.0.3",
     "config": "^1.28.1",
     "connect-flash": "^0.1.1",
@@ -22,7 +21,7 @@
     "sequelize": "^4.28.6"
   },
   "scripts": {
-    "start": "start react-scripts start && start npm run server",
+    "start": "cross-env react-scripts start",
     "server": "cross-env NODE_ENV=development nodemon --exec babel-node ./server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

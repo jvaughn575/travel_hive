@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 
 const FormItem = Form.Item;
@@ -10,10 +9,14 @@ class LoginForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        axios.post('/api/login', {          
+        let body = JSON.stringify({          
           email: values.email,
           password: values.password  
-         })
+         });
+        fetch('/api/join', {
+          method: 'POST',
+          body: body
+        })        
          .then((response) => {
           console.log(response);
          })
