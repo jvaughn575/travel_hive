@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
+import logo from './components/logo.png';
+
 import {
   BrowserRouter as Router,
   Route,
@@ -7,28 +9,48 @@ import {
 } from 'react-router-dom'
 
 import {WrappedRegistrationForm} from './components/Join';
-import {Profile} from './components/Profile';
+import {Inspiration} from './components/Inspiration';
 import {WrappedLoginForm} from './components/Login';
-import {Home} from './components/Home';
+
+const DefaultLayout = ({children}) => (
+  <div>
+     <Header />
+     {children}
+     This is a FOOTER
+ </div>
+);
 
 const App = () => (
 <Router>
+<DefaultLayout>
   <div>
-      <Route exact path="/" component={Home} />
       <Route path="/join" component={WrappedRegistrationForm} />
       <Route path="/login" component={WrappedLoginForm} />
-      <Route path="/profile" component={Profile} />
+      <Route path="/inspiration" component={Inspiration} />
       <Route path="/api/version" component={ApiVersion} />
 
     <ul>
-      <li><Link to="/">Home</Link></li>
       <li><Link to="/join">Join</Link></li>
       <li><Link to="/login">Login</Link></li>
-      <li><Link to="/profile">Profile</Link></li>
+      <li><Link to="/inspiration">Inspiration</Link></li>
     </ul>
 
   </div>
+</DefaultLayout>
 </Router>
+);
+
+export const Header = ({ children }) => (
+  <div className="App">
+    <header className="App-header">
+      <img src={logo} className="App-logo" alt="logo" />
+    </header>
+
+    <p className="App-intro">
+            Inspire Your Inner Explorer​
+    </p>
+    {children}
+  </div>
 );
 
 class ApiVersion extends Component {
@@ -46,4 +68,5 @@ class ApiVersion extends Component {
         );
     }
 }
+
 export default App;
