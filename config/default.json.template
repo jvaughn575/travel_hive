@@ -1,0 +1,15 @@
+{
+    "Database": {
+
+        "dbConfig": {
+            "name": "travelhive_user_db",
+            "user": "root",
+            "pswd": "root",
+            "options": {
+                "host": "localhost",
+                "port": "3306",
+                "dialect": "mysql"
+            }
+        }
+    }
+}
