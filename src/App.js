@@ -19,16 +19,20 @@ import {Plan} from './components/Pages/Plan';
 import {Experience} from './components/Pages/Experience';
 import {Connect} from './components/Pages/Connect';
 
+const { Header, Footer, Content } = Layout;
+
 const DefaultLayout = ({children}) => (
   <div>
-     <AppHeader />
-      <br />
-
-     {children}
-     <AppContent />
-      <br />
-     <AppFooter />
- </div>
+    <AppHeader />
+    <Layout>
+      <Content style={contentContainer}>
+        <div style={contentStyle}>
+          {children}
+         </div>
+      </Content>
+    </Layout>
+    <AppFooter />
+  </div>
 );
 
 const App = () => (
@@ -47,7 +51,7 @@ const App = () => (
 </Router>
 );
 
-const { Header, Footer, Content } = Layout;
+
 
 export const AppHeader = () => (
   <Layout>
@@ -59,7 +63,6 @@ export const AppHeader = () => (
         <Link to="/join">Join </Link>
             /
         <Link to="/login">  Login</Link>
-
     </div>
   </Header>
 
@@ -67,12 +70,7 @@ export const AppHeader = () => (
     <Menu
       mode="horizontal"
       defaultSelectedKeys={['1']}
-      style={{ lineHeight: '64px',
-               border: '1px solid #DCDCDD',
-               padding: '0 25px',
-               display: 'flex',
-               justifyContent: 'flex-start',
-            }}
+      style={menuStyle}
     >
       <Menu.Item key="1"><Link to="/inspiration">Inspiration</Link></Menu.Item>
       <Menu.Item key="2"><Link to="/plan">Plan</Link></Menu.Item>
@@ -80,19 +78,9 @@ export const AppHeader = () => (
       <Menu.Item key="4"><Link to="/connect">Connect</Link></Menu.Item>
     </Menu>
   </div>
-
   </Layout>
  );
 
-export const AppContent = () => (
-  <Layout>
-  <Content style={contentStyle}>
-    <div style={{ textAlign: 'center', background: '#fff', padding: 24, minHeight: 280 }}>
-    Content Goes Here
-    </div>
-  </Content>
-  </Layout>
-);
 
 export const AppFooter = () => (
 <Layout>
@@ -118,8 +106,23 @@ class ApiVersion extends Component {
     }
 }
 
-var contentStyle = {
+var menuStyle = {
+  lineHeight: '64px',
+  border: '1px solid #DCDCDD',
+  padding: '0 25px',
+  display: 'flex',
+  justifyContent: 'flex-start'
+}
+
+var contentContainer = {
   padding: '0 50px'
+}
+
+var contentStyle = {
+  textAlign: 'center',
+  background: '#fff',
+  padding: 24,
+  minHeight: 280
 }
 
 var footerStyle = {
