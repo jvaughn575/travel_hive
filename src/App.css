@@ -23,9 +23,3 @@
 .logo {
   padding: 20px 0 0;
 }
-
-.menu {
-  padding: 0 25px;
-  display:flex;
-  justify-content:flex-start;
-}
