@@ -20,11 +20,7 @@ const DefaultLayout = ({children}) => (
   <div>
      <AppHeader />
       <br />
-     <ul>
-       <li><Link to="/join">Join</Link></li>
-       <li><Link to="/login">Login</Link></li>
-       <li><Link to="/inspiration">Inspiration</Link></li>
-     </ul>
+
      {children}
      <AppContent />
       <br />
@@ -48,32 +44,50 @@ const App = () => (
 const { Header, Footer, Content } = Layout;
 
 export const AppHeader = () => (
-  <Header>
-  <a href="/"><img src={logo} alt="logo"className="logo"/></a>
-      <Menu
-        theme="light"
-        mode="horizontal"
-        defaultSelectedKeys={['1']}
-        style={{ lineHeight: '64px'}}
-      >
-        <Menu.Item key="1"><Link to="/inspiration">Inspiration</Link></Menu.Item>
-        <Menu.Item key="2">Plan</Menu.Item>
-      </Menu>
-    </Header>
+  <Layout>
+  <Header className='header-container'>
+    <div>
+        <a href='./'><img src={logo} alt="logo"className='logo'/></a>
+    </div>
+    <div className="links">
+        <Link to="/join">Join </Link>
+            /
+        <Link to="/login">  Login</Link>
+
+    </div>
+  </Header>
+
+  <div className="menu">
+    <Menu
+      theme="light"
+      mode="horizontal"
+      defaultSelectedKeys={['1']}
+      style={{ lineHeight: '64px'}}
+    >
+      <Menu.Item key="1"><Link to="/inspiration">Inspiration</Link></Menu.Item>
+      <Menu.Item key="2">Plan</Menu.Item>
+    </Menu>
+  </div>
+
+  </Layout>
  );
 
 export const AppContent = () => (
-  <Content style={{ padding: '0 50px' }}>
-    <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
+  <Layout>
+  <Content style={contentStyle}>
+    <div style={{ textAlign: 'center', background: '#fff', padding: 24, minHeight: 280 }}>
     Content Goes Here
     </div>
   </Content>
+  </Layout>
 );
 
 export const AppFooter = () => (
-  <Footer style={{ textAlign: 'center' }}>
-      TravelHive ©2018 Created by ID8
-    </Footer>
+<Layout>
+  <Footer style={footerStyle}>
+  TravelHive ©2018 Created by ID8
+  </Footer>
+</Layout>
 );
 
 class ApiVersion extends Component {
@@ -91,4 +105,13 @@ class ApiVersion extends Component {
         );
     }
 }
+
+var contentStyle = {
+  padding: '0 50px'
+}
+
+var footerStyle = {
+  textAlign: 'center'
+}
+
 export default App;

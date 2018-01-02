@@ -3,16 +3,29 @@
 .login-form {
   max-width: 300px;
 }
+
 .login-form-forgot {
   float: right;
 }
+
 .login-form-button {
   width: 100%;
 }
+
+.header-container {
+  background-color: #fff;
+  height: 100px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
 .logo {
-  width: 150px;
-  height: 50px;
-  background: rgba(255,255,255,.2);
-  margin: 16px 24px 16px 0;
-  float: left;
+  padding: 20px 0 0;
+}
+
+.menu {
+  padding: 0 25px;
+  display:flex;
+  justify-content:flex-start;
 }
