@@ -12,24 +12,27 @@ import {
   Link,
 } from 'react-router-dom'
 
-import {WrappedRegistrationForm} from './components/Join';
-import {Inspiration} from './components/Inspiration';
-import {WrappedLoginForm} from './components/Login';
+import {WrappedRegistrationForm} from './components/Pages/Join';
+import {WrappedLoginForm} from './components/Pages/Login';
+import {Inspiration} from './components/Pages/Inspiration';
+import {Plan} from './components/Pages/Plan';
+import {Experience} from './components/Pages/Experience';
+import {Connect} from './components/Pages/Connect';
+
+const { Header, Footer, Content } = Layout;
 
 const DefaultLayout = ({children}) => (
   <div>
-     <AppHeader />
-      <br />
-     <ul>
-       <li><Link to="/join">Join</Link></li>
-       <li><Link to="/login">Login</Link></li>
-       <li><Link to="/inspiration">Inspiration</Link></li>
-     </ul>
-     {children}
-     <AppContent />
-      <br />
-     <AppFooter />
- </div>
+    <AppHeader />
+    <Layout>
+      <Content style={contentContainer}>
+        <div style={contentStyle}>
+          {children}
+         </div>
+      </Content>
+    </Layout>
+    <AppFooter />
+  </div>
 );
 
 const App = () => (
@@ -39,41 +42,52 @@ const App = () => (
         <Route path="/join" component={WrappedRegistrationForm} />
         <Route path="/login" component={WrappedLoginForm} />
         <Route path="/inspiration" component={Inspiration} />
+        <Route path="/plan" component={Plan} />
+        <Route path="/experience" component={Experience} />
+        <Route path="/connect" component={Connect} />
         <Route path="/api/version" component={ApiVersion} />
   </div>
 </DefaultLayout>
 </Router>
 );
 
-const { Header, Footer, Content } = Layout;
+
 
 export const AppHeader = () => (
-  <Header>
-  <a href="/"><img src={logo} alt="logo"className="logo"/></a>
-      <Menu
-        theme="light"
-        mode="horizontal"
-        defaultSelectedKeys={['1']}
-        style={{ lineHeight: '64px'}}
-      >
-        <Menu.Item key="1"><Link to="/inspiration">Inspiration</Link></Menu.Item>
-        <Menu.Item key="2">Plan</Menu.Item>
-      </Menu>
-    </Header>
+  <Layout>
+  <Header className='header-container'>
+    <div>
+        <a href='./'><img src={logo} alt="logo"className='logo'/></a>
+    </div>
+    <div className="links">
+        <Link to="/join">Join </Link>
+            /
+        <Link to="/login">  Login</Link>
+    </div>
+  </Header>
+
+  <div className="menu">
+    <Menu
+      mode="horizontal"
+      defaultSelectedKeys={['1']}
+      style={menuStyle}
+    >
+      <Menu.Item key="1"><Link to="/inspiration">Inspiration</Link></Menu.Item>
+      <Menu.Item key="2"><Link to="/plan">Plan</Link></Menu.Item>
+      <Menu.Item key="3"><Link to="/experience">Experience</Link></Menu.Item>
+      <Menu.Item key="4"><Link to="/connect">Connect</Link></Menu.Item>
+    </Menu>
+  </div>
+  </Layout>
  );
 
-export const AppContent = () => (
-  <Content style={{ padding: '0 50px' }}>
-    <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
-    Content Goes Here
-    </div>
-  </Content>
-);
 
 export const AppFooter = () => (
-  <Footer style={{ textAlign: 'center' }}>
-      TravelHive ©2018 Created by ID8
-    </Footer>
+<Layout>
+  <Footer style={footerStyle}>
+  TravelHive ©2018 Created by ID8
+  </Footer>
+</Layout>
 );
 
 class ApiVersion extends Component {
@@ -91,4 +105,28 @@ class ApiVersion extends Component {
         );
     }
 }
+
+var menuStyle = {
+  lineHeight: '64px',
+  border: '1px solid #DCDCDD',
+  padding: '0 25px',
+  display: 'flex',
+  justifyContent: 'flex-start'
+}
+
+var contentContainer = {
+  padding: '0 50px'
+}
+
+var contentStyle = {
+  textAlign: 'center',
+  background: '#fff',
+  padding: 24,
+  minHeight: 280
+}
+
+var footerStyle = {
+  textAlign: 'center'
+}
+
 export default App;
