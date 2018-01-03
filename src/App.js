@@ -4,6 +4,7 @@ import logo from './components/logo.png';
 import {
   Layout,
   Menu,
+  Icon,
 } from 'antd';
 
 import {
@@ -51,8 +52,6 @@ const App = () => (
 </Router>
 );
 
-
-
 export const AppHeader = () => (
   <Layout>
   <Header className='header-container'>
@@ -72,15 +71,14 @@ export const AppHeader = () => (
       defaultSelectedKeys={['1']}
       style={menuStyle}
     >
-      <Menu.Item key="1"><Link to="/inspiration">Inspiration</Link></Menu.Item>
-      <Menu.Item key="2"><Link to="/plan">Plan</Link></Menu.Item>
-      <Menu.Item key="3"><Link to="/experience">Experience</Link></Menu.Item>
-      <Menu.Item key="4"><Link to="/connect">Connect</Link></Menu.Item>
+      <Menu.Item key="1"><Link to="/inspiration"><Icon type="bulb" />Inspiration</Link></Menu.Item>
+      <Menu.Item key="2"><Link to="/plan"><Icon type="compass" />Plan</Link></Menu.Item>
+      <Menu.Item key="3"><Link to="/experience"><Icon type="global" />Experience</Link></Menu.Item>
+      <Menu.Item key="4"><Link to="/connect"><Icon type="sync" />Connect</Link></Menu.Item>
     </Menu>
   </div>
   </Layout>
  );
-
 
 export const AppFooter = () => (
 <Layout>
