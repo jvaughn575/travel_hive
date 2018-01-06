@@ -5,6 +5,7 @@ import {
   Layout,
   Menu,
   Icon,
+  Avatar,
 } from 'antd';
 
 import {
@@ -58,10 +59,15 @@ export const AppHeader = () => (
     <div>
         <a href='./'><img src={logo} alt="logo"className='logo'/></a>
     </div>
+    <div>
+    <div className='avatar-container'>
+      <Avatar shape="square" src="https://robohash.org/User" />
+    </div>
     <div className="links">
         <Link to="/join">Join </Link>
             /
         <Link to="/login">  Login</Link>
+    </div>
     </div>
   </Header>
 
