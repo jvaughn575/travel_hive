@@ -17,20 +17,20 @@ class RegistrationForm extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        let body = JSON.stringify({          
+        let body = JSON.stringify({
           username: values.userName,
           email: values.email,
-          password: values.password  
+          password: values.password
          });
         fetch('/api/join', {
           method: 'POST',
           body: body
         })
-         .then((response) => {          
+         .then((response) => {
           console.log(response);
          })
          .catch((error) => {
-          console.log(error); 
+          console.log(error);
          });
       }
     });
@@ -84,6 +84,7 @@ class RegistrationForm extends React.Component {
     };
 
     return (
+      <div>
       <Form onSubmit={this.handleSubmit}>
         <FormItem
           {...formItemLayout}
@@ -144,6 +145,10 @@ class RegistrationForm extends React.Component {
           <Button type="primary" htmlType="submit">Join</Button>
         </FormItem>
       </Form>
+
+      <img src={`//robohash.org/${this.props.form.getFieldValue('email')}?size=200x200`} alt="" />
+
+      </div>
     );
   }
 }
