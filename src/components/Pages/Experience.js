@@ -1,5 +1,5 @@
 import React from 'react';
 
-export function Experience() {
-  return <div>EXPERIENCE PAGE</div>;
-}
+export const Experience = () => (
+    <div>EXPERIENCE PAGE</div>
+);
