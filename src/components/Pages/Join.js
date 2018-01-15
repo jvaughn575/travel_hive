@@ -6,11 +6,14 @@ const FormItem = Form.Item;
 class RegistrationForm extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       confirmDirty: false,
-      autoCompleteResult: [],
+      email: ''
     }
   };
+
+
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -35,6 +38,12 @@ class RegistrationForm extends React.Component {
       }
     });
   }
+
+  setEmail = (e) => {
+    console.log(e.target.value);
+    this.setState({ email: e.target.value });
+  }
+
   handleConfirmBlur = (e) => {
     const value = e.target.value;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
@@ -109,7 +118,10 @@ class RegistrationForm extends React.Component {
               required: true, message: 'Please input your E-mail!',
             }],
           })(
-            <Input />
+            <Input
+              value={this.state.email}
+              onChange={this.setEmail}
+            />
           )}
         </FormItem>
         <FormItem
