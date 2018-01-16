@@ -23,3 +23,18 @@
 .logo {
   padding: 20px 0 0;
 }
+.links {
+  /* border: 1px solid; /*for debugging */
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-container {
+  /* border: 1px solid; /*for debugging */ */
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+}

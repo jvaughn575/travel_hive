@@ -6,35 +6,44 @@ const FormItem = Form.Item;
 class RegistrationForm extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       confirmDirty: false,
-      autoCompleteResult: [],
+      email: ''
     }
   };
+
+
 
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        let body = JSON.stringify({          
+        let body = JSON.stringify({
           username: values.userName,
           email: values.email,
-          password: values.password  
+          password: values.password
          });
         fetch('/api/join', {
           method: 'POST',
           body: body
         })
-         .then((response) => {          
+         .then((response) => {
           console.log(response);
          })
          .catch((error) => {
-          console.log(error); 
+          console.log(error);
          });
       }
     });
   }
+
+  setEmail = (e) => {
+    console.log(e.target.value);
+    this.setState({ email: e.target.value });
+  }
+
   handleConfirmBlur = (e) => {
     const value = e.target.value;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
@@ -84,6 +93,7 @@ class RegistrationForm extends React.Component {
     };
 
     return (
+      <div>
       <Form onSubmit={this.handleSubmit}>
         <FormItem
           {...formItemLayout}
@@ -108,7 +118,10 @@ class RegistrationForm extends React.Component {
               required: true, message: 'Please input your E-mail!',
             }],
           })(
-            <Input />
+            <Input
+              value={this.state.email}
+              onChange={this.setEmail}
+            />
           )}
         </FormItem>
         <FormItem
@@ -144,6 +157,10 @@ class RegistrationForm extends React.Component {
           <Button type="primary" htmlType="submit">Join</Button>
         </FormItem>
       </Form>
+
+      <img src={`//robohash.org/${this.props.form.getFieldValue('email')}?size=200x200`} alt="" />
+
+      </div>
     );
   }
 }

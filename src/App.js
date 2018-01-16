@@ -5,6 +5,7 @@ import {
   Layout,
   Menu,
   Icon,
+  Avatar,
 } from 'antd';
 
 import {
@@ -15,7 +16,7 @@ import {
 
 import {WrappedRegistrationForm} from './components/Pages/Join';
 import {WrappedLoginForm} from './components/Pages/Login';
-import {Inspiration} from './components/Pages/Inspiration';
+import {InspirationPage} from './components/Pages/Inspiration';
 import {Plan} from './components/Pages/Plan';
 import {Experience} from './components/Pages/Experience';
 import {Connect} from './components/Pages/Connect';
@@ -42,7 +43,7 @@ const App = () => (
   <div>
         <Route path="/join" component={WrappedRegistrationForm} />
         <Route path="/login" component={WrappedLoginForm} />
-        <Route path="/inspiration" component={Inspiration} />
+        <Route path="/inspiration" component={InspirationPage} />
         <Route path="/plan" component={Plan} />
         <Route path="/experience" component={Experience} />
         <Route path="/connect" component={Connect} />
@@ -58,10 +59,15 @@ export const AppHeader = () => (
     <div>
         <a href='./'><img src={logo} alt="logo"className='logo'/></a>
     </div>
+    <div>
+    <div className='avatar-container'>
+      <Avatar shape="square" size="large" src="https://robohash.org/User" />
+    </div>
     <div className="links">
         <Link to="/join">Join </Link>
             /
         <Link to="/login">  Login</Link>
+    </div>
     </div>
   </Header>
 
