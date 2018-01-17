@@ -62,7 +62,8 @@ router.get('/loggedIn', (req,res) => {
 router.post('/join', passport.authenticate('local-join'), 
         (req,res) => {
             res.json({                  
-                message: "join"                
+                message: "join",
+                user: req.user.username                                
             });
         }
 );      
@@ -72,11 +73,19 @@ router.post('/login', passport.authenticate('local-login'),
         (req, res) => {            
             res.json({                   
                 message: "login",
-                user: req.user,
+                user: req.user.username,
                 isLoggedIn: req.isAuthenticated()
             });
         }   
 );    
+
+router.get('/logout', 
+        (req, res) => {
+            console.log("Logging User out!");
+            req.logout();
+            res.send(200);
+        }
+);
 /*****************************************/   
     
 // Register all routes with api prefix
