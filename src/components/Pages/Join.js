@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Input, Icon ,Select, Row, Col, Button } from 'antd';
+import {addUser} from '../../userApi.js';
 
 const FormItem = Form.Item;
 
@@ -20,21 +21,7 @@ class RegistrationForm extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        let body = JSON.stringify({
-          username: values.userName,
-          email: values.email,
-          password: values.password
-         });
-        fetch('/api/join', {
-          method: 'POST',
-          body: body
-        })
-         .then((response) => {
-          console.log(response);
-         })
-         .catch((error) => {
-          console.log(error);
-         });
+        addUser(values).then(user => console.log("User Added!",user));
       }
     });
   }

@@ -5,80 +5,92 @@ import passport from 'passport';
 // Load user model
 import User from '../server/models/userModel';
 
-// setup for persistent login sessions
-passport.serializeUser(function(user, done){
+/*****setup for persistent login sessions for passport******/
+passport.serializeUser((user, done) => {
+    console.log("!!!!!!!!   SERIALIZING  !!!!!!!!!!")
     return done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
-        return done(err, user);
-    });
+passport.deserializeUser(async (id, done) => {    
+    console.log("!!!!!!!!   DESERIALIZING   !!!!!!!!!!");
+    const user = await User.findOne({
+        where: { id : id }
+        })
+    return done(null, user);
 });
+/**************************************************/
 
-passport.use('local-signup', new LocalStrategy({
+/************** Helper Functions ******************/
+const createUser = async (username, email, password) => {
+    const user = await User.create({
+                    username: username,
+                    email: email,
+                    password: User.generateHash(password)
+                 }).then( user => {return user});
+    return user;
+        
+};
+
+const getUserWithEmail =  async (email) => {
+    const user = await User.findOne({
+        where: {email : email }
+    })
+    return user;
+}   
+/**************************************************/
+
+/***********Passport Strategy Local-Join************/
+passport.use('local-join', new LocalStrategy({
     usernameField : 'email',
     passwordField : 'password',
     passReqToCallback : true
 },
-(req, email, password, done) => {       
-    User.findOne({
-        where: {email : email }
-        }).then(user => {
-            if (user)                                        
-                return done(null, false, {
-                     code: 409,
-                     message: 'User with supplied email already exists'
-                    }); 
-                
-            User.create({
-                username: req.body.username,
-                email: email,
-                password: User.generateHash(req.body.password)
-            }).then((User) => {
-                console.log("User added!");                
-                return done(null, User, {
-                    code: 200,
-                    message: 'Youre registered!'
-                });     
-            })
-                
-            
-        });    
+(req, email, password, done) => {     
+    // get user with given email. If user already exists return false  
+    getUserWithEmail(email)
+        .then(user => {
+            console.log("Passport local-join",user);  
+            if (user) {
+                console.log("User already Exists");
+                return done(null, false);    
+            }    
 
-}));  
+            // else create and return user                    
+            createUser(req.body.username, email, req.body.password)
+                .then(user => {          
+                    console.log("User added!");                    
+                    return done(null, user);   
+                });       
+    });      
 
+}));
+/****************************************************/
+
+/***********Passport Strategy Local-Login************/
+// Logins in the user
 passport.use('local-login', new LocalStrategy({
     usernameField : 'email',
     passwordField: 'password',
     passReqToCallback : true
 },
-(req, email, password, done) => {
-    User.findOne({
-        where: {email : email }
-        }).then(user => {
-            console.log("Logging in!");
-            if (!user)
-                return done(null, false, {
-                    code: 409,
-                    message: "User not found."
-                });                           
+(req, email, password, done) => {   
+        getUserWithEmail(email)
+            .then(user => {
+                console.log("Getting user with email:",email);
+                console.log('Login user object',user);
+                if (!user){
+                    return done(null, false);
+                }                             
+                        
+                if (!User.validPassword(password, user.password)){
+                    console.log("Password is not valid");
+                    return done(null, false);    
+                }
+                return done(null, user);          
                     
-            if (!User.validPassword(password, user.password))
-                return done(null, false, {
-                    code: 400,
-                    message: "Invalid user credentials."
-                });
-
-            return done(null, user, {
-                code: 200,
-                message: "OK"
-            });    
-                
-            
-        });    
-    }));
-    
-
+            });
+        
+}));
+/****************************************************/
 
 export default passport;
