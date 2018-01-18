@@ -12,8 +12,11 @@ class LoginForm extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
         loginUser(values).then(user => {
-          console.log(user);                    
-          this.props.dispatch({type:'isLoggedIn/yes'});          
+          console.log("Username",user);      
+          if(user){
+            this.props.dispatch({type:'isLoggedIn/yes'});   // antd dva operation to change isLoggedIn state to yes   
+          }              
+                
         });
         
         
