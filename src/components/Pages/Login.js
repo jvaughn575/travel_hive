@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import {loginUser} from '../../userApi.js';
+import dva, { connect } from 'dva';
 
 const FormItem = Form.Item;
 
@@ -10,7 +11,10 @@ class LoginForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        loginUser(values).then(user => console.log(user));
+        loginUser(values).then(user => {
+          console.log(user);                    
+          this.props.dispatch({type:'isLoggedIn/yes'});          
+        });
         
         
       }
@@ -57,4 +61,5 @@ class LoginForm extends React.Component {
   }
 }
 
-export const WrappedLoginForm = Form.create()(LoginForm);
+//export const WrappedLoginForm = Form.create()(LoginForm);
+export const WrappedLoginForm = Form.create()(connect()(LoginForm));
