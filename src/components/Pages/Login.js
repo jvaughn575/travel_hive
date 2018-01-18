@@ -19,6 +19,7 @@ class LoginForm extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
+    <div style={{display: 'flex', justifyContent: 'center'}}>
       <Form onSubmit={this.handleSubmit} className="login-form">
 
         <FormItem>
@@ -53,6 +54,7 @@ class LoginForm extends React.Component {
           Or <a href="./Join">Join Now!</a>
         </FormItem>
       </Form>
+	</div>
     );
   }
 }

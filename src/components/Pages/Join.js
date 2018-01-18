@@ -80,7 +80,7 @@ class RegistrationForm extends React.Component {
     };
 
     return (
-      <div>
+      <div style={{display: 'flex', justifyContent: 'center'}}>
       <Form onSubmit={this.handleSubmit}>
         <FormItem
           {...formItemLayout}
