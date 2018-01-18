@@ -37,7 +37,8 @@ export function loginUser (values) {
         mode: 'cors',
         credentials: 'include',
         body: body
-    }).then(response => {
+    }).then(response => {        
+        if (response.status !== 200) throw "Username or password is incorrect!";
         return response.json();
     }).then(data => { 
         return data.user;

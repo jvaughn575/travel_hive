@@ -1,3 +1,4 @@
+import dva, { connect } from 'dva';
 import React, { Component } from 'react';
 import './App.css';
 import logo from './components/logo.png';
@@ -21,6 +22,23 @@ import {Plan} from './components/Pages/Plan';
 import {Experience} from './components/Pages/Experience';
 import {Connect} from './components/Pages/Connect';
 
+// Create dva app
+export const app = dva();
+
+// Create model
+app.model({
+  namespace: 'isLoggedIn',
+  state: false,
+  reducers: {
+    yes (isLoggedIn) { return (isLoggedIn ? isLoggedIn : !isLoggedIn)},
+    no (isLoggedIn) { return (isLoggedIn ? !isLoggedIn : isLoggedIn)},
+  },
+  
+});
+
+
+console.log(app);
+
 const { Header, Footer, Content } = Layout;
 
 const DefaultLayout = ({children}) => (
@@ -37,7 +55,7 @@ const DefaultLayout = ({children}) => (
   </div>
 );
 
-const App = () => (
+export const App = () => (
 <Router>
 <DefaultLayout>
   <div>
@@ -53,38 +71,56 @@ const App = () => (
 </Router>
 );
 
-export const AppHeader = () => (
-  <Layout>
-  <Header className='header-container'>
-    <div>
-        <a href='./'><img src={logo} alt="logo"className='logo'/></a>
-    </div>
-    <div>
-    <div className='avatar-container'>
-      <Avatar shape="square" size="large" src="https://robohash.org/User" />
-    </div>
-    <div className="links">
-        <Link to="/join">Join </Link>
-            /
-        <Link to="/login">  Login</Link>
-    </div>
-    </div>
-  </Header>
+const JoinLoginHeader = (
+  
+    <Header className='header-container'>
+      <div>
+          <a href='./'><img src={logo} alt="logo"className='logo'/></a>
+      </div> 
+     
+      <div className="links">
+          <Link to="/join">Join </Link>
+              /
+          <Link to="/login">  Login</Link>
+      </div>      
+    </Header>
+);
 
-  <div className="menu">
-    <Menu
-      mode="horizontal"
-      defaultSelectedKeys={['1']}
-      style={menuStyle}
-    >
-      <Menu.Item key="1"><Link to="/inspiration"><Icon type="bulb" />Inspiration</Link></Menu.Item>
-      <Menu.Item key="2"><Link to="/plan"><Icon type="compass" />Plan</Link></Menu.Item>
-      <Menu.Item key="3"><Link to="/experience"><Icon type="global" />Experience</Link></Menu.Item>
-      <Menu.Item key="4"><Link to="/connect"><Icon type="sync" />Connect</Link></Menu.Item>
-    </Menu>
-  </div>
-  </Layout>
- );
+const LoggedInHeader = (
+  <Header className='header-container'>
+      <div>
+          <a href='./'><img src={logo} alt="logo"className='logo'/></a>
+      </div>      
+      <div className='avatar-container'>
+        <Avatar shape="square" size="large" src="https://robohash.org/User" />        
+      </div>   
+      
+    </Header>
+);
+
+export const AppHeader = connect(({ isLoggedIn }) => ({
+    isLoggedIn
+}))(function(props){
+  console.log("App Header",props);  
+  return (  
+    <Layout>
+    {props.isLoggedIn ? LoggedInHeader : JoinLoginHeader}
+
+    <div className="menu">
+      <Menu
+        mode="horizontal"
+        defaultSelectedKeys={['1']}
+        style={menuStyle}
+      >
+        <Menu.Item key="1"><Link to="/inspiration"><Icon type="bulb" />Inspiration</Link></Menu.Item>
+        <Menu.Item key="2"><Link to="/plan"><Icon type="compass" />Plan</Link></Menu.Item>
+        <Menu.Item key="3"><Link to="/experience"><Icon type="global" />Experience</Link></Menu.Item>
+        <Menu.Item key="4"><Link to="/connect"><Icon type="sync" />Connect</Link></Menu.Item>
+      </Menu>
+    </div>
+    </Layout>
+  ); 
+}); 
 
 export const AppFooter = () => (
 <Layout>
@@ -133,4 +169,3 @@ var footerStyle = {
   textAlign: 'center'
 }
 
-export default App;
