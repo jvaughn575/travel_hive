@@ -11,7 +11,8 @@ class LoginForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        loginUser(values).then(user => {
+        const { email, password } = values;
+        loginUser(email, password).then(user => {
           console.log("Username",user);      
           if(user){
             this.props.dispatch({type:'isLoggedIn/yes'});   // antd dva operation to change isLoggedIn state to yes   
