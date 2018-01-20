@@ -7,10 +7,14 @@
 # Steps to run: #
 
 1. npm install
-2. npm start
+2. open another terminal/cmd
+3. run npm run server in second terminal/cmd
+4. run npm start in first terminal/cmd
 
-This will open two command prompt windows. One running the react app and the
-other running the express server.
+Change database information config/default.json to match your database credentials.
+
+If using the default MySQL port set port to 3306.
+If using MAMP set port to 8889.
 
 Nodemon is installed as a dev dependence, so no need to manually install it.
 
