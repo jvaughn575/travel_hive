@@ -1,10 +1,10 @@
 export function addUser (username, email, password, apiUrl = 'api/join'){
     let body = JSON.stringify({
-        username: userName,
+        username: username,
         email: email,
         password: password
        });
-    return fetch(addUser, {
+    return fetch(apiUrl, {
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json" 
