@@ -14,33 +14,30 @@ const newUser = {
   password: "Ilovetravel"
 }
 
-const loginApiUrl = "http://localhost:3001/api/login/";
-const joinApiUrl = "http://localhost:3001/api/join";
 /*************************************************/
-
-
+ 
 /*************** Api Server endpoint testing *****************/
 // Join Endpoint tests
 describe('Join endpoint testing', () => {
   it('returns username if newUser is added to the database', async() => {
-    const username =  await addUser(newUser.username,newUser.email, newUser.password, joinApiUrl);
-    expect(username).toBe(newUser.username);
+    const addedUser =  await addUser(newUser.username,newUser.email,newUser.password);
+    expect(addedUser).toBe(newUser.username);
   });
   it('returns undefined for username, when adding a user with a duplicate email', async() => {
-    const username = await addUser(existingUser.username, existingUser.email, existingUser.password, joinApiUrl);
-    expect(username).toBe(undefined)
+    const addedUser = await addUser(existingUser.username,existingUser.email,existingUser.passwordCorrect);
+    expect(addedUser).toBe(undefined)
   });
 });
 
 // Login Endpoint tests
 describe('Login endpoint testing', () => {
   it('returns username after providing correct credentials to login existing user', async() => {
-    const username = await loginUser(existingUser.email, existingUser.passwordCorrect, loginApiUrl);
-    expect(username).toBe(existingUser.username);
+    const loggedinUser = await loginUser(existingUser.email, existingUser.passwordCorrect);
+    expect(loggedinUser).toBe(existingUser.username);
   });
 
   it('returns undefined for username when provided with incorrect password', async() => {
-    const username = await loginUser(existingUser.email, existingUser.passwordIncorrect, loginApiUrl);
+    const username = await loginUser(existingUser.email, existingUser.passwordIncorrect);
     expect(username).toBe(undefined);
   });
 });
