@@ -1,10 +1,10 @@
-export function addUser (values){
+export function addUser (username, email, password, apiUrl = 'api/join'){
     let body = JSON.stringify({
-        username: values.userName,
-        email: values.email,
-        password: values.password
+        username: username,
+        email: email,
+        password: password
        });
-    return fetch('/api/join', {
+    return fetch(apiUrl, {
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json" 
@@ -22,13 +22,13 @@ export function addUser (values){
         }); 
 }
 
-export function loginUser (values) {
+export function loginUser (email, password, apiUrl = "api/login") {
     let body = JSON.stringify({
-        email: values.email,
-        password: values.password
+        email: email,
+        password: password
     });
 
-    return fetch('api/login', {
+    return fetch(apiUrl, {
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
