@@ -6,6 +6,8 @@
 
 # Steps to run: #
 
+create a copy of `/config/default.json.template` as `/config/default.json` with any env specific settings.
+
 1. npm install
 2. run `npm start` in first terminal/cmd
 3. open another terminal/cmd
