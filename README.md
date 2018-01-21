@@ -7,9 +7,9 @@
 # Steps to run: #
 
 1. npm install
-2. open another terminal/cmd
-3. run npm run server in second terminal/cmd
-4. run npm start in first terminal/cmd
+2. run `npm start` in first terminal/cmd
+3. open another terminal/cmd
+4. run `npm run server` in second terminal/cmd
 
 Change database information config/default.json to match your database credentials.
 
@@ -21,3 +21,5 @@ Nodemon is installed as a dev dependence, so no need to manually install it.
 Then localhost:3000/ will take you to the home page.
 
 localhost:3000/api/version will fetch the version number from the express api.
+
+![landing page](https://raw.githubusercontent.com/reggieroby/travel_hive/img/public/landing.png)
