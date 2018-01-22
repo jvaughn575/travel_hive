@@ -33,7 +33,7 @@ app.model({
     yes (isLoggedIn) { return (isLoggedIn ? isLoggedIn : !isLoggedIn)},
     no (isLoggedIn) { return (isLoggedIn ? !isLoggedIn : isLoggedIn)},
   },
-  
+
 });
 
 
@@ -46,8 +46,9 @@ const DefaultLayout = ({children}) => (
     <AppHeader />
     <Layout>
       <Content style={contentContainer}>
-        <div style={contentStyle}>
+        <div class="wrapper" style={contentStyle}>
           {children}
+           <div class="push"></div>
          </div>
       </Content>
     </Layout>
@@ -72,17 +73,17 @@ export const App = () => (
 );
 
 const JoinLoginHeader = (
-  
+
     <Header className='header-container'>
       <div>
           <a href='./'><img src={logo} alt="logo"className='logo'/></a>
-      </div> 
-     
+      </div>
+
       <div className="links">
           <Link to="/join">Join </Link>
               /
           <Link to="/login">  Login</Link>
-      </div>      
+      </div>
     </Header>
 );
 
@@ -90,19 +91,19 @@ const LoggedInHeader = (
   <Header className='header-container'>
       <div>
           <a href='./'><img src={logo} alt="logo"className='logo'/></a>
-      </div>      
+      </div>
       <div className='avatar-container'>
-        <Avatar shape="square" size="large" src="https://robohash.org/User" />        
-      </div>   
-      
+        <Avatar shape="square" size="large" src="https://robohash.org/User" />
+      </div>
+
     </Header>
 );
 
 export const AppHeader = connect(({ isLoggedIn }) => ({
     isLoggedIn
 }))(function(props){
-  console.log("App Header",props);  
-  return (  
+  console.log("App Header",props);
+  return (
     <Layout>
     {props.isLoggedIn ? LoggedInHeader : JoinLoginHeader}
 
@@ -119,12 +120,12 @@ export const AppHeader = connect(({ isLoggedIn }) => ({
       </Menu>
     </div>
     </Layout>
-  ); 
-}); 
+  );
+});
 
 export const AppFooter = () => (
 <Layout>
-  <Footer style={footerStyle}>
+  <Footer class="footer" style={footerStyle}>
   TravelHive ©2018 Created by ID8
   </Footer>
 </Layout>
@@ -162,10 +163,9 @@ var contentStyle = {
   textAlign: 'center',
   background: '#fff',
   padding: 24,
-  minHeight: 280
+  minHeight: 600
 }
 
 var footerStyle = {
   textAlign: 'center'
 }
-
