@@ -1,7 +1,7 @@
 import dva, { connect } from 'dva';
 import React, { Component } from 'react';
 import './App.css';
-import logo from './components/logo.png';
+import logo from './components/Pages/images/logo.png';
 import {
   Layout,
   Menu,
@@ -17,6 +17,7 @@ import {
 
 import {WrappedRegistrationForm} from './components/Pages/Join';
 import {WrappedLoginForm} from './components/Pages/Login';
+import {ProfilePage} from './components/Pages/Profile';
 import {InspirationPage} from './components/Pages/Inspiration';
 import {Plan} from './components/Pages/Plan';
 import {Experience} from './components/Pages/Experience';
@@ -33,7 +34,7 @@ app.model({
     yes (isLoggedIn) { return (isLoggedIn ? isLoggedIn : !isLoggedIn)},
     no (isLoggedIn) { return (isLoggedIn ? !isLoggedIn : isLoggedIn)},
   },
-  
+
 });
 
 
@@ -61,6 +62,7 @@ export const App = () => (
   <div>
         <Route path="/join" component={WrappedRegistrationForm} />
         <Route path="/login" component={WrappedLoginForm} />
+        <Route path="/profile" component={ProfilePage} />
         <Route path="/inspiration" component={InspirationPage} />
         <Route path="/plan" component={Plan} />
         <Route path="/experience" component={Experience} />
@@ -72,17 +74,17 @@ export const App = () => (
 );
 
 const JoinLoginHeader = (
-  
+
     <Header className='header-container'>
       <div>
           <a href='./'><img src={logo} alt="logo"className='logo'/></a>
-      </div> 
-     
+      </div>
+
       <div className="links">
           <Link to="/join">Join </Link>
               /
           <Link to="/login">  Login</Link>
-      </div>      
+      </div>
     </Header>
 );
 
@@ -90,19 +92,19 @@ const LoggedInHeader = (
   <Header className='header-container'>
       <div>
           <a href='./'><img src={logo} alt="logo"className='logo'/></a>
-      </div>      
+      </div>
       <div className='avatar-container'>
-        <Avatar shape="square" size="large" src="https://robohash.org/User" />        
-      </div>   
-      
+        <Avatar shape="square" size="large" src="https://robohash.org/User" />
+      </div>
+
     </Header>
 );
 
 export const AppHeader = connect(({ isLoggedIn }) => ({
     isLoggedIn
 }))(function(props){
-  console.log("App Header",props);  
-  return (  
+  console.log("App Header",props);
+  return (
     <Layout>
     {props.isLoggedIn ? LoggedInHeader : JoinLoginHeader}
 
@@ -119,8 +121,8 @@ export const AppHeader = connect(({ isLoggedIn }) => ({
       </Menu>
     </div>
     </Layout>
-  ); 
-}); 
+  );
+});
 
 export const AppFooter = () => (
 <Layout>
@@ -168,4 +170,3 @@ var contentStyle = {
 var footerStyle = {
   textAlign: 'center'
 }
-
