@@ -1,7 +1,7 @@
 import dva, { connect } from 'dva';
 import React, { Component } from 'react';
 import './App.css';
-import logo from './components/logo.png';
+import logo from './components/Pages/images/logo.png';
 import {
   Layout,
   Menu,
@@ -17,6 +17,7 @@ import {
 
 import {WrappedRegistrationForm} from './components/Pages/Join';
 import {WrappedLoginForm} from './components/Pages/Login';
+import {ProfilePage} from './components/Pages/Profile';
 import {InspirationPage} from './components/Pages/Inspiration';
 import {Plan} from './components/Pages/Plan';
 import {Experience} from './components/Pages/Experience';
@@ -62,6 +63,7 @@ export const App = () => (
   <div>
         <Route path="/join" component={WrappedRegistrationForm} />
         <Route path="/login" component={WrappedLoginForm} />
+        <Route path="/profile" component={ProfilePage} />
         <Route path="/inspiration" component={InspirationPage} />
         <Route path="/plan" component={Plan} />
         <Route path="/experience" component={Experience} />
