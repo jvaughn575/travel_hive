@@ -47,8 +47,9 @@ const DefaultLayout = ({children}) => (
     <AppHeader />
     <Layout>
       <Content style={contentContainer}>
-        <div style={contentStyle}>
+        <div class="wrapper" style={contentStyle}>
           {children}
+           <div class="push"></div>
          </div>
       </Content>
     </Layout>
@@ -126,7 +127,7 @@ export const AppHeader = connect(({ isLoggedIn }) => ({
 
 export const AppFooter = () => (
 <Layout>
-  <Footer style={footerStyle}>
+  <Footer class="footer" style={footerStyle}>
   TravelHive ©2018 Created by ID8
   </Footer>
 </Layout>
@@ -164,7 +165,7 @@ var contentStyle = {
   textAlign: 'center',
   background: '#fff',
   padding: 24,
-  minHeight: 280
+  minHeight: 600
 }
 
 var footerStyle = {

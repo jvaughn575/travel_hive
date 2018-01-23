@@ -39,6 +39,18 @@
   justify-content:center;
 }
 
+.wrapper {
+  min-height: 100%;
+
+  /* Equal to height of footer */
+  /* But also accounting for potential margin-bottom of last child */
+
+  margin-bottom: 20px;
+}
+.footer,
+.push {
+  height: 50px;
+}
 
 .left{
   display: flex;
@@ -61,15 +73,6 @@
   width:100%;
 }
 
-/* Mobile Styles */
-@media only screen and (max-width: 400px) {
-
-}
-
-/* Tablet Styles */
-@media only screen and (min-width: 401px) and (max-width: 960px) {
-
-}
 /* Desktop Styles */
 @media only screen and (min-width: 961px) {
   .page {
