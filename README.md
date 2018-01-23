@@ -28,4 +28,4 @@ Then localhost:3000/ will take you to the home page.
 
 localhost:3000/api/version will fetch the version number from the express api.
 
-![landing page](https://raw.githubusercontent.com/reggieroby/travel_hive/img/public/landing.png)
+![landing page](https://raw.githubusercontent.com/reggieroby/travel_hive/master/public/landing.png)
