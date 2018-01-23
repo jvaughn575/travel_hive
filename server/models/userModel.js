@@ -9,6 +9,7 @@ export let UserModel = function(sequalizeDB){
     },
     email: {
       type: Sequelize.STRING,
+      unique: true,
     },
     password:{ 
       type: Sequelize.STRING,
