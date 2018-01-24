@@ -3,10 +3,12 @@ import {connectToMysqlDB} from './connectToMysqlDB';
 import {UserModel} from './models/userModel';
 import {passportStrat} from '../config/passportStrategy';
 
-const app = express();
+export const app = express();
+export const httpServer = require('http').createServer(app);
 const port = process.env.PORT || 3001;
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const env = process.env.node_env;
 
 (async function(){
   let mysqlDB = await connectToMysqlDB()
@@ -37,20 +39,22 @@ const session = require('express-session');
   const router = express.Router();
 
   /*********Debug Logging middleware***********/
-  app.use((req, res, next) => {
-    const status = req.isAuthenticated() ? 'logged in' : 'logged out';
-    console.log(
-      'status:', status, '\n',
-      req.sessionStore,
-      req.sessionID,
-      req.session
-    );
-    next();
-  });
+  if(env === 'debug'){
+    app.use((req, res, next) => {
+      const status = req.isAuthenticated() ? 'logged in' : 'logged out';
+      console.log(
+        'status:', status, '\n',
+        req.sessionStore,
+        req.sessionID,
+        req.session
+      );
+      next();
+    });
 
-  let showRequest = (req,res,next) => {
-    console.log(req.session);
-    next();
+    let showRequest = (req,res,next) => {
+      console.log(req.session);
+      next();
+    }
   }
   /****************************************** */
 
@@ -94,8 +98,20 @@ const session = require('express-session');
       
   // Register all routes with api prefix
   app.use('/api', router);
-
-  app.listen(port);
-  console.log('Express api listening on port ' + port);
-
+  
+  /* Needed for test otherwise sequelize can't find the database tables */
+  if(env === 'test'){
+    mysqlDB.sequalizeDB.sync({force: false}).then(function() {
+      //app.listen(port, function(){
+        httpServer.listen(port, function(){
+        console.log('Express api listening on port ' + port );
+        app.emit('serverStarted');
+      });     
+    });
+  /**********************************************************************/   
+  } else {
+    //app.listen(port);
+    httpServer.listen(port);
+    console.log('Express api listening on port ' + port );
+  }
 })()

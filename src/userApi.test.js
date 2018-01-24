@@ -1,4 +1,6 @@
 import { loginUser, addUser } from './userApi';
+import {app,httpServer} from '../server/server';
+console.log("Test Server");
 
 /************** Setup for Testing *************/
 const existingUser = {
@@ -14,23 +16,33 @@ const newUser = {
   password: "Ilovetravel"
 }
 
+beforeAll(done => {
+  app.on('serverStarted', () => {          
+    done();
+  });
+});
+
+afterAll((done) => {  
+  httpServer.close(done);
+});
+
 /*************************************************/
  
 /*************** Api Server endpoint testing *****************/
 // Join Endpoint tests
 describe('Join endpoint testing', () => {
   it('returns username if newUser is added to the database', async() => {
-    const addedUser =  await addUser(newUser.username,newUser.email,newUser.password);
+    let addedUser =  await addUser(newUser.username,newUser.email,newUser.password);
     expect(addedUser).toBe(newUser.username);
   });
   it('returns undefined for username, when adding a user with a duplicate email', async() => {
-    const addedUser = await addUser(existingUser.username,existingUser.email,existingUser.passwordCorrect);
-    expect(addedUser).toBe(undefined)
-  });
+    let addedUser = await addUser(existingUser.username,existingUser.email,existingUser.passwordCorrect);
+    expect(addedUser).toBe(undefined);
+  }); 
 });
 
 // Login Endpoint tests
-describe('Login endpoint testing', () => {
+ describe('Login endpoint testing', () => {
   it('returns username after providing correct credentials to login existing user', async() => {
     const loggedinUser = await loginUser(existingUser.email, existingUser.passwordCorrect);
     expect(loggedinUser).toBe(existingUser.username);
@@ -40,5 +52,5 @@ describe('Login endpoint testing', () => {
     const username = await loginUser(existingUser.email, existingUser.passwordIncorrect);
     expect(username).toBe(undefined);
   });
-});
+}); 
 /****************************************************************/
