@@ -29,7 +29,8 @@ const env = process.env.node_env;
 
   app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Credentials', true);
-    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    //res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
@@ -58,6 +59,14 @@ const env = process.env.node_env;
   }
   /****************************************** */
 
+   /*************** Helper middleware *******************/
+    const userAuthenticated = (req, res, next) => {
+      if (req.isAuthenticated()) {
+        return next();
+      }
+      res.sendStatus(401);
+    } 
+   /****************************************** */
 
   /*************** Routes*******************/
   router.get('/version', (req, res) => {
@@ -92,6 +101,21 @@ const env = process.env.node_env;
       console.log("Logging User out!");
       req.logout();
       res.send(200);
+    }
+  );
+
+  // Profile routes
+  router.post('/profile', userAuthenticated,
+    (req, res) => {             
+      if( req.body ){
+        req.user.updateAttributes({
+          profileImg: req.body,
+        });
+        res.status(200).send({message:'Profile pic upload successful.'});
+       
+      } else {
+        res.status(406).send({message:'Profile pic upload failed.'});        
+      }  
     }
   );
   /*****************************************/   
