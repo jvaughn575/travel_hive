@@ -13,6 +13,14 @@ export let UserModel = function(sequalizeDB){
     },
     password:{ 
       type: Sequelize.STRING,
+    },
+    profileImg:{
+      type: Sequelize.BLOB,
+      allowNull: true,
+    },
+    bioText:{
+      type: Sequelize.TEXT,
+      allowNull: true,
     }
   });  
 
@@ -33,7 +41,9 @@ export let UserModel = function(sequalizeDB){
     return User.create({
       username: "Jilian Carlile",
       email: "jillian.carlile@fakeEmail.com",
-      password: User.generateHash("1234password")
+      password: User.generateHash("1234password"),
+      profileImg: null,
+      bioText: null,
     });
   });
   return User

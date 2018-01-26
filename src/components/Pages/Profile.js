@@ -12,12 +12,15 @@ import {
   Row,
   Col
 } from 'antd';
+import {addProfilePhoto, addBioText} from '../../userApi';
 
 const { TextArea } = Input;
 
-function getBase64(img, callback) {
+function getBase64(img, callback) {  
   const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
+  reader.addEventListener('load', () => {    
+    callback(reader.result);
+  });
   reader.readAsDataURL(img);
 }
 
@@ -42,7 +45,7 @@ class Avatar extends React.Component {
       this.setState({ loading: true });
       return;
     }
-    if (info.file.status === 'done') {
+    if (info.file.status === 'done') {      
       // Get this url from response in real world.
       getBase64(info.file.originFileObj, imageUrl => this.setState({
         imageUrl,
@@ -57,14 +60,15 @@ class Avatar extends React.Component {
         <div className="ant-upload-text">Upload</div>
       </div>
     );
-    const imageUrl = this.state.imageUrl;
+    const imageUrl = this.state.imageUrl;    
     return (
       <Upload
-        name="avatar"
+        name="avatar"                
+        customRequest = {addProfilePhoto}        
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
-        action="//jsonplaceholder.typicode.com/posts/"
+        action='/api/profile'              
         beforeUpload={beforeUpload}
         onChange={this.handleChange}
       >
@@ -76,7 +80,7 @@ class Avatar extends React.Component {
 
 
 class EditProfile extends React.Component {
-  state = { visible: false }
+  state = { visible: false, bioValue: "" }
   showModal = () => {
     this.setState({
       visible: true,
@@ -87,11 +91,17 @@ class EditProfile extends React.Component {
     this.setState({
       visible: false,
     });
+    addBioText(this.state.bioValue);
   }
   handleCancel = (e) => {
     console.log(e);
     this.setState({
       visible: false,
+    });
+  }
+  onBioChange = (e) => {
+    this.setState({
+      bioValue: e.target.value,
     });
   }
   render() {
@@ -106,7 +116,7 @@ class EditProfile extends React.Component {
         >
           <Avatar />
           <p>Write a brief description about yourself</p>
-          <TextArea rows={4} />
+          <TextArea rows={4} onChange={this.onBioChange} value={this.state.bioValue}/>
         </Modal>
       </div>
     );

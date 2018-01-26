@@ -29,7 +29,8 @@ const env = process.env.node_env;
 
   app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Credentials', true);
-    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    //res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
@@ -58,6 +59,14 @@ const env = process.env.node_env;
   }
   /****************************************** */
 
+   /*************** Helper middleware *******************/
+    const userAuthenticated = (req, res, next) => {
+      if (req.isAuthenticated()) {
+        return next();
+      }
+      res.sendStatus(401);
+    } 
+   /****************************************** */
 
   /*************** Routes*******************/
   router.get('/version', (req, res) => {
@@ -94,6 +103,34 @@ const env = process.env.node_env;
       res.send(200);
     }
   );
+
+  // Profile routes
+  router.post('/profile', userAuthenticated,
+    (req, res) => {   
+      let paramToUpdate = Object.keys(req.body)[0];   
+      
+      if ( paramToUpdate === 'bioText'){
+        req.user.updateAttributes({
+          bioText: req.body[paramToUpdate],
+        }).then(user => {                   
+          res.status(200).send({message: 'Bio updated successfully!'});
+        }).catch(error => {
+          res.status(406).send({message: 'Bio update failed.'});
+        })
+        
+      }         
+            
+      if( paramToUpdate === "profileImg" ){
+        req.user.updateAttributes({
+          profileImg: req.body[paramToUpdate],
+        }).then(user => {
+          res.status(200).send({message:'Profile pic upload successful.'})
+        }).catch(error => {
+          res.status(406).send({message: 'Profile pic upload failed.'})
+        })
+      }  
+    }
+  );
   /*****************************************/   
       
   // Register all routes with api prefix
@@ -101,16 +138,14 @@ const env = process.env.node_env;
   
   /* Needed for test otherwise sequelize can't find the database tables */
   if(env === 'test'){
-    mysqlDB.sequalizeDB.sync({force: false}).then(function() {
-      //app.listen(port, function(){
+    mysqlDB.sequalizeDB.sync({force: false}).then(function() {      
         httpServer.listen(port, function(){
         console.log('Express api listening on port ' + port );
         app.emit('serverStarted');
       });     
     });
   /**********************************************************************/   
-  } else {
-    //app.listen(port);
+  } else {    
     httpServer.listen(port);
     console.log('Express api listening on port ' + port );
   }

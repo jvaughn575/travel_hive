@@ -23,6 +23,7 @@ class RegistrationForm extends React.Component {
         console.log('Received values of form: ', values);
         const { userName, email, password } = values;
         addUser(userName, email, password).then(user => console.log("User Added!",user));
+        this.props.history.push('/Profile');
       }
     });
   }

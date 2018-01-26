@@ -42,3 +42,64 @@ export function logoutUser (){
     console.log("Logged out response",response);
   })
 }
+
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();    
+    reader.readAsBinaryString(file);
+    reader.onload = () => resolve(btoa(reader.result));
+    reader.onerror = error => reject(error);  
+  });  
+}
+
+export async function addProfilePhoto (info){  
+  
+  const base64Url = await getBase64(info.file);  
+  console.log("Add Profile Photo Info",info);
+  fetch(`${api}/profile`, {
+    headers: {      
+      "Accept": "application/json",
+      "authorization": 'authorization-text',
+      "Content-Type": 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors',
+    credentials: 'include',
+    body: JSON.stringify({profileImg:base64Url})
+  })
+  .then(response => {        
+    if (response.status === 200){      
+      info.onSuccess(base64Url,info.file.status = 'done');
+      return response.json();
+    } else {
+      return response.json();
+    }
+  })  
+  .then(data => console.log(data))  
+  .catch(error => {
+    console.log(error);
+  })   
+  return true; 
+}
+
+export function addBioText(bioText){
+  fetch(`${api}/profile`, {
+    headers: {      
+      "Accept": "application/json",      
+      "Content-Type": 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors',
+    credentials: 'include',
+    body: JSON.stringify({bioText:bioText})
+  })
+  .then(response => {
+    if (response.status === 200){
+      return response.json();
+    }
+  })
+  .then(data => console.log(data))
+  .catch(error => {
+    console.log(error);
+  })
+}
