@@ -17,8 +17,11 @@ export let UserModel = function(sequalizeDB){
     profileImg:{
       type: Sequelize.BLOB,
       allowNull: true,
-
     },
+    bioText:{
+      type: Sequelize.TEXT,
+      allowNull: true,
+    }
   });  
 
   // user password encryption
@@ -39,7 +42,8 @@ export let UserModel = function(sequalizeDB){
       username: "Jilian Carlile",
       email: "jillian.carlile@fakeEmail.com",
       password: User.generateHash("1234password"),
-      profileImg: null
+      profileImg: null,
+      bioText: null,
     });
   });
   return User
