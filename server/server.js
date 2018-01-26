@@ -106,15 +106,28 @@ const env = process.env.node_env;
 
   // Profile routes
   router.post('/profile', userAuthenticated,
-    (req, res) => {             
-      if( req.body ){
+    (req, res) => {   
+      let paramToUpdate = Object.keys(req.body)[0];   
+      
+      if ( paramToUpdate === 'bioText'){
         req.user.updateAttributes({
-          profileImg: req.body,
-        });
-        res.status(200).send({message:'Profile pic upload successful.'});
-       
-      } else {
-        res.status(406).send({message:'Profile pic upload failed.'});        
+          bioText: req.body[paramToUpdate],
+        }).then(user => {                   
+          res.status(200).send({message: 'Bio updated successfully!'});
+        }).catch(error => {
+          res.status(406).send({message: 'Bio update failed.'});
+        })
+        
+      }         
+            
+      if( paramToUpdate === "profileImg" ){
+        req.user.updateAttributes({
+          profileImg: req.body[paramToUpdate],
+        }).then(user => {
+          res.status(200).send({message:'Profile pic upload successful.'})
+        }).catch(error => {
+          res.status(406).send({message: 'Profile pic upload failed.'})
+        })
       }  
     }
   );
@@ -125,16 +138,14 @@ const env = process.env.node_env;
   
   /* Needed for test otherwise sequelize can't find the database tables */
   if(env === 'test'){
-    mysqlDB.sequalizeDB.sync({force: false}).then(function() {
-      //app.listen(port, function(){
+    mysqlDB.sequalizeDB.sync({force: false}).then(function() {      
         httpServer.listen(port, function(){
         console.log('Express api listening on port ' + port );
         app.emit('serverStarted');
       });     
     });
   /**********************************************************************/   
-  } else {
-    //app.listen(port);
+  } else {    
     httpServer.listen(port);
     console.log('Express api listening on port ' + port );
   }
