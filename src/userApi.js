@@ -65,7 +65,7 @@ export async function addProfilePhoto (info){
     method: 'POST',
     mode: 'cors',
     credentials: 'include',
-    body: JSON.stringify({base64Url})
+    body: JSON.stringify({profileImg:base64Url})
   })
   .then(response => {        
     if (response.status === 200){      
@@ -80,4 +80,26 @@ export async function addProfilePhoto (info){
     console.log(error);
   })   
   return true; 
+}
+
+export function addBioText(bioText){
+  fetch(`${api}/profile`, {
+    headers: {      
+      "Accept": "application/json",      
+      "Content-Type": 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors',
+    credentials: 'include',
+    body: JSON.stringify({bioText:bioText})
+  })
+  .then(response => {
+    if (response.status === 200){
+      return response.json();
+    }
+  })
+  .then(data => console.log(data))
+  .catch(error => {
+    console.log(error);
+  })
 }

@@ -12,7 +12,7 @@ import {
   Row,
   Col
 } from 'antd';
-import {addProfilePhoto} from '../../userApi';
+import {addProfilePhoto, addBioText} from '../../userApi';
 
 const { TextArea } = Input;
 
@@ -80,7 +80,7 @@ class Avatar extends React.Component {
 
 
 class EditProfile extends React.Component {
-  state = { visible: false }
+  state = { visible: false, bioValue: "" }
   showModal = () => {
     this.setState({
       visible: true,
@@ -91,11 +91,17 @@ class EditProfile extends React.Component {
     this.setState({
       visible: false,
     });
+    addBioText(this.state.bioValue);
   }
   handleCancel = (e) => {
     console.log(e);
     this.setState({
       visible: false,
+    });
+  }
+  onBioChange = (e) => {
+    this.setState({
+      bioValue: e.target.value,
     });
   }
   render() {
@@ -110,7 +116,7 @@ class EditProfile extends React.Component {
         >
           <Avatar />
           <p>Write a brief description about yourself</p>
-          <TextArea rows={4} />
+          <TextArea rows={4} onChange={this.onBioChange} value={this.state.bioValue}/>
         </Modal>
       </div>
     );
