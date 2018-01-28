@@ -47,6 +47,7 @@
 
   margin-bottom: 20px;
 }
+
 .footer,
 .push {
   height: 50px;
@@ -71,6 +72,16 @@
 
 .map {
   width:100%;
+}
+
+.avatar-uploader > .ant-upload {
+  width: 128px;
+  height: 128px;
+}
+
+.upload-preview {
+  width: 128px;
+  height: 128px;
 }
 
 /* Desktop Styles */

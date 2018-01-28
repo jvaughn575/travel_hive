@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import map from './images/map.png';
 import prof_pic from './images/profile_pic.png';
+import {addProfilePhoto, addBioText} from '../../userApi';
 import {
   Card,
   Upload,
@@ -12,16 +13,15 @@ import {
   Row,
   Col
 } from 'antd';
-import {addProfilePhoto, addBioText} from '../../userApi';
 
-const { TextArea } = Input;
-
-function getBase64(img, callback) {  
-  const reader = new FileReader();
-  reader.addEventListener('load', () => {    
-    callback(reader.result);
+function getBase64(img, callback) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      resolve(reader.result);
+    });
+    reader.readAsDataURL(img);
   });
-  reader.readAsDataURL(img);
 }
 
 function beforeUpload(file) {
@@ -41,16 +41,16 @@ class Avatar extends React.Component {
     loading: false,
   };
   handleChange = (info) => {
+    getBase64(info.file.originFileObj).then(imageUrl => {
+      this.setState({
+        imageUrl,
+        loading: false
+      });
+      this.props.updateProfileState({ pic: imageUrl });
+    });
     if (info.file.status === 'uploading') {
       this.setState({ loading: true });
       return;
-    }
-    if (info.file.status === 'done') {      
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl => this.setState({
-        imageUrl,
-        loading: false,
-      }));
     }
   }
   render() {
@@ -60,24 +60,23 @@ class Avatar extends React.Component {
         <div className="ant-upload-text">Upload</div>
       </div>
     );
-    const imageUrl = this.state.imageUrl;    
+    const imageUrl = this.state.imageUrl;
     return (
       <Upload
-        name="avatar"                
-        customRequest = {addProfilePhoto}        
+        name="avatar"
+        customRequest = {addProfilePhoto}
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
-        action='/api/profile'              
+        action='/api/profile'
         beforeUpload={beforeUpload}
         onChange={this.handleChange}
       >
-        {imageUrl ? <img src={imageUrl} alt="" /> : uploadButton}
+        {imageUrl ? <img src={imageUrl} className="upload-preview" alt="image preview" /> : uploadButton}
       </Upload>
     );
   }
 }
-
 
 class EditProfile extends React.Component {
   state = { visible: false, bioValue: "" }
@@ -92,6 +91,10 @@ class EditProfile extends React.Component {
       visible: false,
     });
     addBioText(this.state.bioValue);
+    // callback to set state in Profile
+    this.props.updateProfileState({
+      bio: this.state.bioValue
+    });
   }
   handleCancel = (e) => {
     console.log(e);
@@ -105,16 +108,17 @@ class EditProfile extends React.Component {
     });
   }
   render() {
+    const { TextArea } = Input;
     return (
       <div>
-          <Button icon="edit" className="edit-profile" onClick={this.showModal}>Edit Profile</Button>
+        <Button icon="edit" className="edit-profile" onClick={this.showModal}>Edit Profile</Button>
         <Modal
           title="Edit Profile"
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-          <Avatar />
+          <Avatar updateProfileState={this.props.updateProfileState} />
           <p>Write a brief description about yourself</p>
           <TextArea rows={4} onChange={this.onBioChange} value={this.state.bioValue}/>
         </Modal>
@@ -123,18 +127,16 @@ class EditProfile extends React.Component {
   }
 }
 
-const ProfilePic = () => (
+const ProfilePic = ({ src }) => (
   <Card
     style={{ width: 140 }}
-    cover={<img src={prof_pic} />}
+    cover={<img src={src} />}
   />
 )
 
-const Bio = () => (
+const Bio = ({ bio }) => (
   <div className="bio">
-    <p>
-      Bio goes here!
-    </p>
+    <p>{bio}</p>
   </div>
 )
 
@@ -144,34 +146,30 @@ const Map = () => (
   />
 )
 
-export const ProfilePage = () => (
-  <Row gutter={16} >
-    <Col span={16}>
-      <div className='left'>
-        <ProfilePic />
-        <EditProfile />
-        <Bio />
-      </div>
-    </Col>
-    <Col span={8}>
-      <Map />
-    </Col>
-  </Row>
-);
+export class ProfilePage extends React.Component {
+  state = {
+    pic: prof_pic,
+    bio: 'Bio Goes Here'
+  }
 
+  handleProfileChange = data => {
+    this.setState(data)
+  }
 
-// <div className='right'>
-//   <Map />
-// </div>
-// <div className='prof-pic-container'>
-//   <div className='prof-pic' >
-//     <img src={prof_pic} />
-//   </div>
-// </div>
-
-
-// <div className='map-container'>
-//   <div className='map' >
-//     <img src={map} />
-//   </div>
-// </div>
+  render() {
+    return (
+      <Row gutter={16} >
+        <Col span={16}>
+          <div className='left'>
+            <ProfilePic src={this.state.pic} />
+            <EditProfile updateProfileState={this.handleProfileChange} />
+            <Bio bio={this.state.bio} />
+          </div>
+        </Col>
+        <Col span={8}>
+          <Map />
+        </Col>
+      </Row>
+    )
+  }
+}
