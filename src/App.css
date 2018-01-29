@@ -48,6 +48,7 @@
 
   margin-bottom: 20px;
 }
+
 .footer,
 .push {
   /* sticky footer is still not at the bottom of the page */
@@ -75,6 +76,16 @@
 
 .map {
   width:100%;
+}
+
+.avatar-uploader > .ant-upload {
+  width: 128px;
+  height: 128px;
+}
+
+.upload-preview {
+  width: 128px;
+  height: 128px;
 }
 
 /* Desktop Styles */
