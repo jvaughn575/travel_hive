@@ -81,9 +81,12 @@ class RegistrationForm extends React.Component {
       },
     };
 
+	/* Might need to change layout to horizontal */
+	/* Input boxes need to be centered adding 
+	   class to form messing up the input boxes */
     return (
-      <div style={{display: 'flex', justifyContent: 'center'}}>
-      <Form onSubmit={this.handleSubmit}>
+      <div>
+      <Form layout="vertical" onSubmit={this.handleSubmit}>
         <FormItem
           {...formItemLayout}
           label="Name"
