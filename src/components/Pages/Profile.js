@@ -33,7 +33,7 @@ function beforeUpload(file) {
   if (!isLt2M) {
     message.error('Image must smaller than 2MB!');
   }
-  return isJPG && isLt2M;
+  return isJPG && isLt2M;  
 }
 
 class Avatar extends React.Component {
@@ -41,15 +41,24 @@ class Avatar extends React.Component {
     loading: false,
   };
   handleChange = (info) => {
-    getBase64(info.file.originFileObj).then(imageUrl => {
-      this.setState({
-        imageUrl,
-        loading: false
+    console.log("Handle Change", info);
+    if( info.file.status === 'done'){
+      getBase64(info.file.originFileObj).then(imageUrl => {
+        this.setState({
+          imageUrl,
+          loading: false
+        });
+        this.props.updateProfileState({ pic: imageUrl });
       });
-      this.props.updateProfileState({ pic: imageUrl });
-    });
+    }    
+    
     if (info.file.status === 'uploading') {
       this.setState({ loading: true });
+      return;
+    }
+
+    if (info.file.status === 'error'){
+      this.setState({ loading: false});
       return;
     }
   }
