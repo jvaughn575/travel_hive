@@ -1,40 +1,46 @@
 const api = "http://localhost:3001/api"
 
+const baseOptions = {
+  headers: {
+    "Content-Type": "application/json",
+    "Accept": "application/json" 
+  },
+  mode: 'cors',
+  credentials: 'include',
+}
+
 export function addUser (username, email, password){
   return fetch(`${api}/join`, {
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json" 
-    },
-    method: 'POST',
-    mode: 'cors',
-    credentials: 'include',
+    ...baseOptions,
+    method: 'POST',    
     body: JSON.stringify({username, email, password})
   })
-  .then(response => response.json())
-  .then(data => data.user)
-  .catch(error => console.log(error)); 
+  .then(response => {
+    if (response.ok){
+      return response.json();
+    } 
+  })
+  .then(data => data ? data.user : null)
+  .catch(error => {
+    console.log(error);    
+  }); 
 }
 
 export function loginUser (email, password) {
   return fetch(`${api}/login`, {
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    },
-    method: 'POST',
-    mode: 'cors',
-    credentials: 'include',
+    ...baseOptions,
+    method: 'POST',    
     body: JSON.stringify({email, password})
   })
   .then(response => {        
-    if (response.status !== 200) throw "Username or password is incorrect!";
-    return response.json();
+    if (response.ok){
+      return response.json();      
+    }    
   })
-  .then(data => data.user)
+  .then(data => data ? data.user : null)
   .catch(error => {
     console.log(error);
-  })    
+  });    
 }
 
 export function logoutUser (){
@@ -56,49 +62,36 @@ export async function addProfilePhoto (info){
   
   const base64Url = await getBase64(info.file);  
   console.log("Add Profile Photo Info",info);
-  fetch(`${api}/profile`, {
-    headers: {      
-      "Accept": "application/json",
-      "authorization": 'authorization-text',
-      "Content-Type": 'application/json'
-    },
-    method: 'POST',
-    mode: 'cors',
-    credentials: 'include',
+  return fetch(`${api}/profile`, {
+    ...baseOptions,
+    method: 'POST',   
     body: JSON.stringify({profileImg:base64Url})
   })
   .then(response => {        
-    if (response.status === 200){      
-      info.onSuccess(base64Url,info.file.status = 'done');
-      return response.json();
-    } else {
-      return response.json();
-    }
+    if (response.ok){            
+      info.onSuccess(response.json());      
+    } else {      
+      info.onError("Profile update failed");
+    }      
   })  
-  .then(data => console.log(data))  
   .catch(error => {
     console.log(error);
   })   
-  return true; 
+  
 }
 
 export function addBioText(bioText){
   fetch(`${api}/profile`, {
-    headers: {      
-      "Accept": "application/json",      
-      "Content-Type": 'application/json'
-    },
-    method: 'POST',
-    mode: 'cors',
-    credentials: 'include',
+    ...baseOptions,
+    method: 'POST',    
     body: JSON.stringify({bioText:bioText})
   })
   .then(response => {
-    if (response.status === 200){
+    if (response.ok){
       return response.json();
     }
   })
-  .then(data => console.log(data))
+  .then(data => data ? data.message : null)
   .catch(error => {
     console.log(error);
   })
