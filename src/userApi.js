@@ -37,7 +37,7 @@ export function loginUser (email, password) {
       return response.json();      
     }    
   })
-  .then(data => data ? data.user : null)
+  .then(data => data ? {user: data.user, profileImage: data.profileImage} : null)
   .catch(error => {
     console.log(error);
   });    
@@ -51,9 +51,9 @@ export function logoutUser (){
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader();    
-    reader.readAsBinaryString(file);
-    reader.onload = () => resolve(btoa(reader.result));
+    const reader = new FileReader();        
+    reader.readAsDataURL(file);    
+    reader.onload = () => resolve(reader.result);
     reader.onerror = error => reject(error);  
   });  
 }

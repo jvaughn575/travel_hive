@@ -90,7 +90,7 @@ const LoggedInHeader = (props) => (
           <a href='./'><img src={logo} alt="logo"className='logo'/></a>
       </div>
       <div className='avatar-container'>
-        <Avatar shape="square" size="large" src={props.profileImage} />
+        <a href='/profile'><Avatar shape="square" size="large" src={props.profileImage} /></a>
       </div>
 
     </Header>

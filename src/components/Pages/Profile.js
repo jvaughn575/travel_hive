@@ -157,17 +157,18 @@ const Map = () => (
   />
 )
 
-export class ProfilePage extends React.Component {  
+export class ProfilePage extends React.Component {    
   state = {
-    pic: prof_pic,
+    //pic: prof_pic,
+    pic: this.props.userState.user.profileImage,
     bio: 'Bio Goes Here'
   }
 
   handleProfileChange = data => {
     this.setState(data)
   }
-
-  render() {    
+  
+  render() {        
     return (
       <Row gutter={16} >
         <Col span={16}>

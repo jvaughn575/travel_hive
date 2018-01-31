@@ -91,7 +91,7 @@ const env = process.env.node_env;
       res.json({                   
         message: "login",
         user: req.user.username,
-        isLoggedIn: req.isAuthenticated()
+        profileImage: req.user.profileImg
       });
     }   
   );    
