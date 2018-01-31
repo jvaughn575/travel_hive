@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, Icon ,Select, Row, Col, Button } from 'antd';
 import {addUser} from '../../userApi.js';
+import dva, { connect } from 'dva';
 
 const FormItem = Form.Item;
 
@@ -14,16 +15,21 @@ class RegistrationForm extends React.Component {
     }
   };
 
-
-
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
         const { userName, email, password } = values;
-        addUser(userName, email, password).then(user => console.log("User Added!",user));
-        this.props.history.push('/Profile');
+        addUser(userName, email, password).then(user => {
+          if(user){
+            console.log("User Added!",user);
+            this.props.dispatch({type:'user/logInUser'});   // antd dva operation to change isLoggedIn state to yes   
+            this.props.history.push('/Profile');
+          }
+          
+        });
+        
       }
     });
   }
@@ -157,4 +163,4 @@ class RegistrationForm extends React.Component {
   }
 }
 
-export const WrappedRegistrationForm = Form.create()(RegistrationForm);
+export const WrappedRegistrationForm = Form.create()(connect()(RegistrationForm));

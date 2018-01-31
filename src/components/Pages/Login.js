@@ -14,8 +14,8 @@ class LoginForm extends React.Component {
         const { email, password } = values;
         loginUser(email, password).then(user => {
           console.log("Username",user);      
-          if(user){
-            this.props.dispatch({type:'isLoggedIn/yes'});   // antd dva operation to change isLoggedIn state to yes   
+          if(user){            
+            this.props.dispatch({type:'user/logInUser'});   // antd dva operation to change isLoggedIn state to true           
           }              
                 
         });
