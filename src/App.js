@@ -23,10 +23,19 @@ import {Plan} from './components/Pages/Plan';
 import {Experience} from './components/Pages/Experience';
 import {Connect} from './components/Pages/Connect';
 
-import models from './models/user.js';
+import models from './models/user';
+import { loadState, saveState } from './models/localStorage';
+
+// dva hook method triggers when app state changes
+const onStateChange = (info) => {  
+  saveState(info);
+}
 
 // Create dva app
-export const app = dva();
+export const app = dva({
+  initialState: loadState(),
+  onStateChange: onStateChange,
+});
 
 // Create model
 app.model(models);
