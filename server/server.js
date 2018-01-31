@@ -91,7 +91,7 @@ const env = process.env.node_env;
       res.json({                   
         message: "login",
         user: req.user.username,
-        isLoggedIn: req.isAuthenticated()
+        profileImage: req.user.profileImg
       });
     }   
   );    
@@ -106,13 +106,13 @@ const env = process.env.node_env;
 
   // Profile routes
   router.post('/profile', userAuthenticated,
-    (req, res) => {   
+    (req, res) => {         
       let paramToUpdate = Object.keys(req.body)[0];   
       
       if ( paramToUpdate === 'bioText'){
         req.user.updateAttributes({
           bioText: req.body[paramToUpdate],
-        }).then(user => {                   
+        }).then(() => {                   
           res.status(200).send({message: 'Bio updated successfully!'});
         }).catch(error => {
           res.status(406).send({message: 'Bio update failed.'});
@@ -123,7 +123,7 @@ const env = process.env.node_env;
       if( paramToUpdate === "profileImg" ){
         req.user.updateAttributes({
           profileImg: req.body[paramToUpdate],
-        }).then(user => {
+        }).then(() => {
           res.status(200).send({message:'Profile pic upload successful.'})
         }).catch(error => {
           res.status(406).send({message: 'Profile pic upload failed.'})

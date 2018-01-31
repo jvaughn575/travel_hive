@@ -12,10 +12,11 @@ class LoginForm extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
         const { email, password } = values;
-        loginUser(email, password).then(user => {
-          console.log("Username",user);      
-          if(user){
-            this.props.dispatch({type:'isLoggedIn/yes'});   // antd dva operation to change isLoggedIn state to yes   
+        loginUser(email, password).then(user => {                
+          if(user){             
+            const base64image = String.fromCharCode.apply(null, new Uint16Array(user.profileImage.data));
+            this.props.dispatch({type:'user/logInUser'});   // antd dva operation to change isLoggedIn state to true   
+            this.props.dispatch({type:'user/updateProfileImage', payload:base64image})        
           }              
                 
         });

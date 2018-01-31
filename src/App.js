@@ -23,22 +23,13 @@ import {Plan} from './components/Pages/Plan';
 import {Experience} from './components/Pages/Experience';
 import {Connect} from './components/Pages/Connect';
 
+import models from './models/user.js';
+
 // Create dva app
 export const app = dva();
 
 // Create model
-app.model({
-  namespace: 'isLoggedIn',
-  state: false,
-  reducers: {
-    yes (isLoggedIn) { return (isLoggedIn ? isLoggedIn : !isLoggedIn)},
-    no (isLoggedIn) { return (isLoggedIn ? !isLoggedIn : isLoggedIn)},
-  },
-
-});
-
-
-console.log(app);
+app.model(models);
 
 const { Header, Footer, Content } = Layout;
 
@@ -57,13 +48,17 @@ const DefaultLayout = ({children}) => (
   </div>
 );
 
-export const App = () => (
+export const App = connect(( { user } ) => ({
+  user
+}))(function(props){   
+  console.log("APP STATE", props);
+  return(
 <Router>
 <DefaultLayout>
   <div>
         <Route path="/join" component={WrappedRegistrationForm} />
-        <Route path="/login" component={WrappedLoginForm} />
-        <Route path="/profile" component={ProfilePage} />
+        <Route path="/login" component={WrappedLoginForm} />        
+        <Route path="/profile" render={()=><ProfilePage userState={props}/>}/>
         <Route path="/inspiration" component={InspirationPage} />
         <Route path="/plan" component={Plan} />
         <Route path="/experience" component={Experience} />
@@ -71,8 +66,8 @@ export const App = () => (
         <Route path="/api/version" component={ApiVersion} />
   </div>
 </DefaultLayout>
-</Router>
-);
+</Router>)
+});
 
 const JoinLoginHeader = (
 
@@ -89,25 +84,25 @@ const JoinLoginHeader = (
     </Header>
 );
 
-const LoggedInHeader = (
+const LoggedInHeader = (props) => (
   <Header className='header-container'>
       <div>
           <a href='./'><img src={logo} alt="logo"className='logo'/></a>
       </div>
       <div className='avatar-container'>
-        <Avatar shape="square" size="large" src="https://robohash.org/User" />
+        <a href='/profile'><Avatar shape="square" size="large" src={props.profileImage} /></a>
       </div>
 
     </Header>
 );
 
-export const AppHeader = connect(({ isLoggedIn }) => ({
-    isLoggedIn
+export const AppHeader = connect(( {user}) => ({
+    user
 }))(function(props){
   console.log("App Header",props);
   return (
     <Layout>
-    {props.isLoggedIn ? LoggedInHeader : JoinLoginHeader}
+    {props.user.isLoggedIn ? <LoggedInHeader profileImage={props.user.profileImage}/> : JoinLoginHeader}
 
     <div className="menu">
       <Menu

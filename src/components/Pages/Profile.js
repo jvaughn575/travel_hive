@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import dva, { connect } from 'dva';
 import map from './images/map.png';
 import prof_pic from './images/profile_pic.png';
 import {addProfilePhoto, addBioText} from '../../userApi';
@@ -33,7 +34,7 @@ function beforeUpload(file) {
   if (!isLt2M) {
     message.error('Image must smaller than 2MB!');
   }
-  return isJPG && isLt2M;
+  return isJPG && isLt2M;  
 }
 
 class Avatar extends React.Component {
@@ -41,15 +42,25 @@ class Avatar extends React.Component {
     loading: false,
   };
   handleChange = (info) => {
-    getBase64(info.file.originFileObj).then(imageUrl => {
-      this.setState({
-        imageUrl,
-        loading: false
+    console.log("Handle Change", info);
+    if( info.file.status === 'done'){
+      getBase64(info.file.originFileObj).then(imageUrl => {       
+        this.props.test.dispatch({type:'user/updateProfileImage', payload:imageUrl}); // antd dva update to user profile image state
+        this.setState({
+          imageUrl,
+          loading: false
+        });
+        this.props.updateProfileState({ pic: imageUrl });
       });
-      this.props.updateProfileState({ pic: imageUrl });
-    });
+    }    
+    
     if (info.file.status === 'uploading') {
       this.setState({ loading: true });
+      return;
+    }
+
+    if (info.file.status === 'error'){
+      this.setState({ loading: false});
       return;
     }
   }
@@ -78,7 +89,7 @@ class Avatar extends React.Component {
   }
 }
 
-class EditProfile extends React.Component {
+class EditProfile extends React.Component {   
   state = { visible: false, bioValue: "" }
   showModal = () => {
     this.setState({
@@ -107,7 +118,7 @@ class EditProfile extends React.Component {
       bioValue: e.target.value,
     });
   }
-  render() {
+  render() {    
     const { TextArea } = Input;
     return (
       <div>
@@ -118,7 +129,7 @@ class EditProfile extends React.Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-          <Avatar updateProfileState={this.props.updateProfileState} />
+          <Avatar updateProfileState={this.props.updateProfileState} test={this.props.test}/>
           <p>Write a brief description about yourself</p>
           <TextArea rows={4} onChange={this.onBioChange} value={this.state.bioValue}/>
         </Modal>
@@ -146,23 +157,24 @@ const Map = () => (
   />
 )
 
-export class ProfilePage extends React.Component {
+export class ProfilePage extends React.Component {    
   state = {
-    pic: prof_pic,
+    //pic: prof_pic,
+    pic: this.props.userState.user.profileImage,
     bio: 'Bio Goes Here'
   }
 
   handleProfileChange = data => {
     this.setState(data)
   }
-
-  render() {
+  
+  render() {        
     return (
       <Row gutter={16} >
         <Col span={16}>
           <div className='left'>
             <ProfilePic src={this.state.pic} />
-            <EditProfile updateProfileState={this.handleProfileChange} />
+            <EditProfile updateProfileState={this.handleProfileChange} test = {this.props.userState}/>
             <Bio bio={this.state.bio} />
           </div>
         </Col>

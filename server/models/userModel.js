@@ -36,15 +36,15 @@ export let UserModel = function(sequalizeDB){
   };
 
   // Some mock data. If user table exist 'force' equals true will drop it first
-  User.sync({force:true}).then(() => {
+  User.sync({force:false}).then(() => {
     // Table created
-    return User.create({
+    /* return User.create({
       username: "Jilian Carlile",
       email: "jillian.carlile@fakeEmail.com",
       password: User.generateHash("1234password"),
       profileImg: null,
       bioText: null,
-    });
+    }); */
   });
   return User
 }
