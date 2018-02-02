@@ -45,6 +45,7 @@ class Avatar extends React.Component {
     console.log("Handle Change", info);
     if( info.file.status === 'done'){
       getBase64(info.file.originFileObj).then(imageUrl => {       
+        message.success("Profile image updated!");
         this.props.test.dispatch({type:'user/updateProfileImage', payload:imageUrl}); // antd dva update to user profile image state
         this.setState({
           imageUrl,
@@ -60,6 +61,7 @@ class Avatar extends React.Component {
     }
 
     if (info.file.status === 'error'){
+      message.error("Profile image update failed!");
       this.setState({ loading: false});
       return;
     }
@@ -101,7 +103,15 @@ class EditProfile extends React.Component {
     this.setState({
       visible: false,
     });
-    addBioText(this.state.bioValue);
+    addBioText(this.state.bioValue).then(bioText => {
+      if( bioText ){
+        message.success("Biography updated!");
+      } else {
+        message.error("Biography failed to update!");
+      }
+    }
+
+    );
     // callback to set state in Profile
     this.props.updateProfileState({
       bio: this.state.bioValue

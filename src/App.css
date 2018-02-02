@@ -95,3 +95,13 @@
       margin: 0 auto;
     }
 }
+
+/* Antd component overrides */
+
+/* Antd message component override */
+.ant-message {
+  color: #fff; /* White text color */
+}
+.ant-message-notice-content {  
+  background:#333;  
+}

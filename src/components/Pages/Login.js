@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 import {loginUser} from '../../userApi.js';
 import dva, { connect } from 'dva';
 
@@ -14,10 +14,17 @@ class LoginForm extends React.Component {
         const { email, password } = values;
         loginUser(email, password).then(user => {                
           if(user){             
+            const firstname = user.user.split(" ")[0];
+            message.success("Welcome back, " + firstname);
             const base64image = String.fromCharCode.apply(null, new Uint16Array(user.profileImage.data));
             this.props.dispatch({type:'user/logInUser'});   // antd dva operation to change isLoggedIn state to true   
-            this.props.dispatch({type:'user/updateProfileImage', payload:base64image})        
-          }              
+            this.props.dispatch({type:'user/updateProfileImage', payload:base64image})  
+            this.props.history.push('/inspiration');      
+          } else {
+            message.error("Incorrect email or password!");
+            
+          }
+
                 
         });
         

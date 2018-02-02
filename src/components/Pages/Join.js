@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Icon ,Select, Row, Col, Button } from 'antd';
+import { Form, Input, Icon ,Select, Row, Col, Button, message } from 'antd';
 import {addUser} from '../../userApi.js';
 import dva, { connect } from 'dva';
 
@@ -22,11 +22,14 @@ class RegistrationForm extends React.Component {
         console.log('Received values of form: ', values);
         const { userName, email, password } = values;
         addUser(userName, email, password).then(user => {
-          if(user){
-            console.log("User Added!",user);
+          if(user){            
+            message.success("Thanks for signing up! Get ready for an adventure!");
             this.props.dispatch({type:'user/logInUser'});   // antd dva operation to change isLoggedIn state to yes   
             this.props.history.push('/Profile');
+          } else {
+            message.error("Signup process failed. Please try again!");
           }
+
           
         });
         

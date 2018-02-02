@@ -81,7 +81,7 @@ export async function addProfilePhoto (info){
 }
 
 export function addBioText(bioText){
-  fetch(`${api}/profile`, {
+  return fetch(`${api}/profile`, {
     ...baseOptions,
     method: 'POST',    
     body: JSON.stringify({bioText:bioText})
