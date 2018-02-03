@@ -26,6 +26,7 @@ import {Connect} from './components/Pages/Connect';
 
 import models from './models/user';
 import { loadState, saveState } from './models/localStorage';
+import { logoutUser } from './userApi';
 
 // dva hook method triggers when app state changes
 const onStateChange = (info) => {  
@@ -95,6 +96,7 @@ const JoinLoginHeader = (
 
 const onLogOut = ({key}) => {
   if ( key === "1"){       
+    logoutUser();
     app._store.dispatch({type:'user/logOutUser'}); // alternate way to connect to the app store/state dispatcher    
     saveState(undefined);
   }
