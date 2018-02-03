@@ -98,6 +98,10 @@
 
 /* Antd component overrides */
 
+.anticon {
+  margin-top: 20px;
+}
+
 /* Antd message component override */
 .ant-message {
   color: #fff; /* White text color */

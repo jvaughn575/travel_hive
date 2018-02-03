@@ -7,6 +7,7 @@ import {
   Menu,
   Icon,
   Avatar,
+  Dropdown
 } from 'antd';
 
 import {
@@ -47,9 +48,9 @@ const DefaultLayout = ({children}) => (
     <AppHeader />
     <Layout>
       <Content style={contentContainer}>
-        <div class="wrapper" style={contentStyle}>
+        <div className="wrapper" style={contentStyle}>
           {children}
-           <div class="push"></div>
+           <div className="push"></div>
          </div>
       </Content>
     </Layout>
@@ -59,8 +60,7 @@ const DefaultLayout = ({children}) => (
 
 export const App = connect(( { user } ) => ({
   user
-}))(function(props){   
-  console.log("APP STATE", props);
+}))(function(props){     
   return(
 <Router>
 <DefaultLayout>
@@ -93,22 +93,43 @@ const JoinLoginHeader = (
     </Header>
 );
 
+const onLogOut = ({key}) => {
+  if ( key === "1"){       
+    app._store.dispatch({type:'user/logOutUser'}); // alternate way to connect to the app store/state dispatcher    
+    saveState(undefined);
+  }
+}
+
+const menu = (
+  <Menu onClick = {onLogOut}>
+    <Menu.Item key="0">
+      <a href="/profile">Profile</a>
+    </Menu.Item>
+    <Menu.Item  key="1">
+      <a href="/login">Logout</a>
+    </Menu.Item>
+    <Menu.Divider />    
+  </Menu>
+);
+
 const LoggedInHeader = (props) => (
   <Header className='header-container'>
       <div>
           <a href='./'><img src={logo} alt="logo"className='logo'/></a>
       </div>
       <div className='avatar-container'>
-        <a href='/profile'><Avatar shape="square" size="large" src={props.profileImage} /></a>
-      </div>
+        <Avatar shape="square" size="large" src={props.profileImage} />   
+        <Dropdown overlay = {menu}>
+          <Icon type="down" />
+         </Dropdown>    
+      </div>    
 
     </Header>
 );
 
 export const AppHeader = connect(( {user}) => ({
     user
-}))(function(props){
-  console.log("App Header",props);
+}))(function(props){ 
   return (
     <Layout>
     {props.user.isLoggedIn ? <LoggedInHeader profileImage={props.user.profileImage}/> : JoinLoginHeader}
@@ -131,7 +152,7 @@ export const AppHeader = connect(( {user}) => ({
 
 export const AppFooter = () => (
 <Layout>
-  <Footer class="footer" style={footerStyle}>
+  <Footer className="footer" style={footerStyle}>
   TravelHive ©2018 Created by ID8
   </Footer>
 </Layout>
