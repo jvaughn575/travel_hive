@@ -13,12 +13,13 @@ class LoginForm extends React.Component {
         console.log('Received values of form: ', values);
         const { email, password } = values;
         loginUser(email, password).then(user => {                
-          if(user){             
+          if(user){                         
             const firstname = user.user.split(" ")[0];
             message.success("Welcome back, " + firstname);
             const base64image = String.fromCharCode.apply(null, new Uint16Array(user.profileImage.data));
             this.props.dispatch({type:'user/logInUser'});   // antd dva operation to change isLoggedIn state to true   
             this.props.dispatch({type:'user/updateProfileImage', payload:base64image})  
+            this.props.dispatch({type: 'user/updateBioText', payload: user.bioText})
             this.props.history.push('/inspiration');      
           } else {
             message.error("Incorrect email or password!");

@@ -1,22 +1,23 @@
 export default {
     namespace: 'user',
     state: {
-        
-        profileImage: "https://robohash.org/User",       
         isLoggedIn: false,
+        bioText: "Bio Goes here",
+        profileImage: "https://robohash.org/User",      
         
     },
     reducers: {
-        logInUser (state){            
-            console.log("Log in user Action dispatch");             
+        logInUser (state){                                    
             return { ...state, isLoggedIn:true };
         },
         logOutUser (state){
             return { ...state, isLoggedIn:false};
         },    
-        updateProfileImage (state, {payload: base64Image}){
-            console.log("Update Profile Action dispatched",state,base64Image);
+        updateProfileImage (state, {payload: base64Image}){            
             return {...state, profileImage:base64Image};
+        },
+        updateBioText (state, {payload: bioText}){
+            return {...state, bioText: bioText}
         },
     }
 }    

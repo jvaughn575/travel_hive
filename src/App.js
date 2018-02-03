@@ -67,7 +67,7 @@ export const App = connect(( { user } ) => ({
   <div>
         <Route path="/join" component={WrappedRegistrationForm} />
         <Route path="/login" component={WrappedLoginForm} />        
-        <Route path="/profile" render={()=><ProfilePage userState={props}/>}/>
+        <Route path="/profile" render={()=><ProfilePage appState={props}/>}/>
         <Route path="/inspiration" component={InspirationPage} />
         <Route path="/plan" component={Plan} />
         <Route path="/experience" component={Experience} />

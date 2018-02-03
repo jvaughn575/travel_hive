@@ -91,7 +91,8 @@ const env = process.env.node_env;
       res.json({                   
         message: "login",
         user: req.user.username,
-        profileImage: req.user.profileImg
+        bioText: req.user.bioText,
+        profileImage: req.user.profileImg,        
       });
     }   
   );    
