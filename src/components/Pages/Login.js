@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 import {loginUser} from '../../userApi.js';
 import dva, { connect } from 'dva';
 
@@ -13,11 +13,27 @@ class LoginForm extends React.Component {
         console.log('Received values of form: ', values);
         const { email, password } = values;
         loginUser(email, password).then(user => {                
-          if(user){             
-            const base64image = String.fromCharCode.apply(null, new Uint16Array(user.profileImage.data));
+          if(user){                         
+            const firstname = user.user.split(" ")[0];
+            message.success("Welcome back, " + firstname);
+            let base64image = undefined;
+            // Temp fix until database migration. Need to store profile image as base64 string instead of blob
+            // in db.
+            try{
+              base64image = String.fromCharCode.apply(null, new Uint16Array(user.profileImage.data));
+            } 
+            catch(error) {
+              base64image = "https://robohash.org/User";
+            }
             this.props.dispatch({type:'user/logInUser'});   // antd dva operation to change isLoggedIn state to true   
-            this.props.dispatch({type:'user/updateProfileImage', payload:base64image})        
-          }              
+            this.props.dispatch({type:'user/updateProfileImage', payload:base64image})  
+            this.props.dispatch({type: 'user/updateBioText', payload: user.bioText})
+            this.props.history.push('/inspiration');      
+          } else {
+            message.error("Incorrect email or password!");
+            
+          }
+
                 
         });
         
