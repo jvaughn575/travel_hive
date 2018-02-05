@@ -12,8 +12,8 @@ class LoginForm extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
         const { email, password } = values;
-        loginUser(email, password).then(user => {                
-          if(user){                         
+        loginUser(email, password).then(user => {
+          if(user){
             const firstname = user.user.split(" ")[0];
             message.success("Welcome back, " + firstname);
             let base64image = undefined;
@@ -21,23 +21,18 @@ class LoginForm extends React.Component {
             // in db.
             try{
               base64image = String.fromCharCode.apply(null, new Uint16Array(user.profileImage.data));
-            } 
+            }
             catch(error) {
               base64image = "https://robohash.org/User";
             }
-            this.props.dispatch({type:'user/logInUser'});   // antd dva operation to change isLoggedIn state to true   
-            this.props.dispatch({type:'user/updateProfileImage', payload:base64image})  
+            this.props.dispatch({type:'user/logInUser'});   // antd dva operation to change isLoggedIn state to true
+            this.props.dispatch({type:'user/updateProfileImage', payload:base64image})
             this.props.dispatch({type: 'user/updateBioText', payload: user.bioText})
-            this.props.history.push('/inspiration');      
+            this.props.history.push('/inspiration');
           } else {
             message.error("Incorrect email or password!");
-            
           }
-
-                
         });
-        
-        
       }
     });
   }
