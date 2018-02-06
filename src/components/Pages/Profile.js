@@ -222,6 +222,7 @@ class BookmarkInspirtaion extends React.Component {
           Bookmark Your Inspiration
         </Button>
         <Modal
+          style={{ top: 20 }}
           visible={visible}
           title="Bookmark Your Inspiration"
           onOk={this.handleOk}
