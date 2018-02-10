@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import dva, { connect } from 'dva';
 import map from './images/map.png';
 import prof_pic from './images/profile_pic.png';
-import {addProfilePhoto, addBioText} from '../../userApi';
+import {addProfilePhoto, addBioText, getPictures} from '../../userApi';
 import {
   Card,
   Upload,
@@ -161,8 +161,9 @@ class PinInput extends Component {
   }
 
   handleChange(event) {
-    // console.log(event.target.value);
+    console.log(event.target.value);
     this.setState({ url: event.target.value });
+    getPictures(event.target.value).then(imageAttrs => this.props.updateImages(imageAttrs));    
   }
 
   handleSubmit(event) {
@@ -195,10 +196,18 @@ const PinCard = () => (
   </div>
 );
 
+const ImageSelector = ({imageAttrs}) => (      
+  <div>
+    {imageAttrs.map(imageAttrs => <img src={imageAttrs.src} alt={imageAttrs.alt} style={{maxWidth:"100px"}}  />)}
+  </div>
+);
+
 class BookmarkInspirtaion extends React.Component {
   state = {
     loading: false,
     visible: false,
+    imageChosen: false,
+    imageAttrs: [],
   }
   showModal = () => {
     this.setState({
@@ -214,7 +223,11 @@ class BookmarkInspirtaion extends React.Component {
   handleCancel = () => {
     this.setState({ visible: false });
   }
+  updateImages = (imageAttrs) => {    
+    this.setState({imageAttrs: imageAttrs});
+  }
   render() {
+    console.log("From Bookmark Inspiration images",this.state.imageAttrs);
     const { visible, loading } = this.state;
     return (
       <div>
@@ -233,8 +246,9 @@ class BookmarkInspirtaion extends React.Component {
             </Button>,
           ]}
         >
-          <PinInput/>
-          <PinCard/>
+          <PinInput updateImages={this.updateImages}/>
+          
+          {this.state.imageChosen ? <PinCard /> : <ImageSelector imageAttrs = {this.state.imageAttrs}/>}
         </Modal>
       </div>
     );

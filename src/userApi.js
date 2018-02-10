@@ -1,3 +1,5 @@
+import React, { Component } from 'react';
+
 const api = 'http://localhost:3001/api';
 
 const baseOptions = {
@@ -96,3 +98,38 @@ export function addBioText(bioText) {
       console.log(error);
     });
 }
+
+export function getPictures(url){	    
+	const proxy = "http://cors-proxy.htmldriven.com/?url="+url;	
+  const imagesAttributes = [];
+
+  return fetch(proxy).then(response => response.json()).then(htmlText => {
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(htmlText.body, "text/html");
+    
+    var images = [...doc.images].map(image => image.outerHTML);
+      
+    var notWorking = function(html) {
+        var el = document.createElement('div');
+        el.innerHTML = html;
+        return el.childNodes[0];
+      }
+      
+    images.forEach(image => {
+      var image = notWorking(image);
+      var imageAttrs = [...image.attributes];     
+      
+      imageAttrs.forEach(attr => {
+        var attrString = attr.value;
+        var attrStringLastThree = attrString.substring(attrString.length -3,attrString.length).toLowerCase();   
+        if(attrStringLastThree === "png" || attrStringLastThree === "jpg" || attrStringLastThree === "jpeg"){            
+            const imageSrc = attrString;
+            const imageAlt = image.attributes.hasOwnProperty("alt") ? image.attributes.alt.value : "";            
+            images.push({src:imageSrc, alt:imageAlt});
+        }
+      });
+    });
+    return images;
+  })
+  
+};
