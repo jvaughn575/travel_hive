@@ -52,7 +52,7 @@
 .footer,
 .push {
   /* sticky footer is still not at the bottom of the page */
-  /* need to fix so that it leaves no whitespace at the 
+  /* need to fix so that it leaves no whitespace at the
 	 bottom of the webpage */
   height: 50px;
 }
@@ -99,13 +99,13 @@
 /* Antd component overrides */
 
 .anticon {
-  margin-top: 20px;
+  margin-top: 0px;
 }
 
 /* Antd message component override */
 .ant-message {
   color: #fff; /* White text color */
 }
-.ant-message-notice-content {  
-  background:#333;  
+.ant-message-notice-content {
+  background:#333;
 }
