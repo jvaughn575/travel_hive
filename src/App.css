@@ -109,3 +109,8 @@
 .ant-message-notice-content {
   background:#333;
 }
+
+.ant-avatar-lg {
+  width: 90px;
+  height: 90px;
+}
