@@ -186,19 +186,21 @@ class PinInput extends Component {
   }
 }
 
-const PinCard = () => (
+const PinCard = ({selectedImageAttrs}) => {  
   <div className="pin-preview">
     <Card
       style={{ maxWidth: "60%" }}
-      cover={<img src="https://assets.atlasobscura.com/media/W1siZiIsInVwbG9hZHMvcGxhY2VfaW1hZ2VzL2RlODZjMTUyZWY2YWRlZmYxNDljNWIxNzU2NjNmYThhNzI4NTVhNzMuanBnIl0sWyJwIiwidGh1bWIiLCI5ODB4PiJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA4MSAtYXV0by1vcmllbnQiXV0/de86c152ef6adeff149c5b175663fa8a72855a73.jpg" alt="" />}
+      cover={<img src={selectedImageAttrs.src} alt="" />}
     >
     </Card>
   </div>
-);
+};
 
-const ImageSelector = ({imageAttrs}) => (      
-  <div>
-    {imageAttrs.map(imageAttrs => <img src={imageAttrs.src} alt={imageAttrs.alt} style={{maxWidth:"100px"}}  />)}
+const ImageSelector = ({imageAttrs,selectImage}) => (     
+  
+  <div >
+    <h1>Select A Image</h1> 
+    {imageAttrs.map((imageAttrs,index) => <img key={index} onClick={selectImage.bind(this,imageAttrs.src)} src={imageAttrs.src} alt={imageAttrs.alt}  style={{maxWidth:"100px"}}  />)}
   </div>
 );
 
@@ -207,6 +209,7 @@ class BookmarkInspirtaion extends React.Component {
     loading: false,
     visible: false,
     imageChosen: false,
+    selectedImageAttrs: null,
     imageAttrs: [],
   }
   showModal = () => {
@@ -223,11 +226,14 @@ class BookmarkInspirtaion extends React.Component {
   handleCancel = () => {
     this.setState({ visible: false });
   }
+  selectImage = (src,e) => {
+    console.log("Image selected",src);    
+    this.setState({selectedImageAttrs:{src:src}}, this.setState({imageChosen: true}));
+  }
   updateImages = (imageAttrs) => {    
     this.setState({imageAttrs: imageAttrs});
   }
-  render() {
-    console.log("From Bookmark Inspiration images",this.state.imageAttrs);
+  render() {        
     const { visible, loading } = this.state;
     return (
       <div>
@@ -248,7 +254,8 @@ class BookmarkInspirtaion extends React.Component {
         >
           <PinInput updateImages={this.updateImages}/>
           
-          {this.state.imageChosen ? <PinCard /> : <ImageSelector imageAttrs = {this.state.imageAttrs}/>}
+          {this.state.imageChosen ? <PinCard selectedImageAttrs = {this.state.selectedImageAttrs} /> :
+                                    <ImageSelector selectImage = {this.selectImage} imageAttrs = {this.state.imageAttrs}/>}
         </Modal>
       </div>
     );
