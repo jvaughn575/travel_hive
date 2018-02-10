@@ -6,15 +6,14 @@
 
 # Steps to run: #
 
-run the dockerfile for MySQL:
-docker run --name mysql_DB -p 3306:3306 -e MYSQL_ROOT_PASSWORD="root" -dit mysql
 
 create a copy of `/config/default.json.template` as `/config/default.json` with any env specific settings.
 
 1. npm install
-2. run `npm start` in first terminal/cmd
-3. open another terminal/cmd
-4. run `npm run server` in second terminal/cmd
+2. npm run db:create
+3. run `npm start` in first terminal/cmd
+4. open another terminal/cmd
+5. run `npm run server` in second terminal/cmd
 
 Change database information config/default.json to match your database credentials.
 

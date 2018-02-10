@@ -23,7 +23,11 @@
     "server": "cross-env NODE_ENV=development nodemon --exec babel-node ./server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "db:create": "docker run --name travel_hive_mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=\"root\" -dit mysql",
+    "db:destroy": "docker rm travel_hive_mysql",
+    "db:start": "docker start travel_hive_mysql",
+    "db:stop": "docker stop travel_hive_mysql"
   },
   "proxy": "http://localhost:3001",
   "devDependencies": {
