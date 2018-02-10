@@ -7,7 +7,7 @@
 # Steps to run: #
 
 
-create a copy of `/config/default.json.template` as `/config/default.json` with any env specific settings.
+create a copy of `/config/config.js.template` as `/config/config.js` with any env specific settings.
 
 1. npm install
 2. npm run db:create
