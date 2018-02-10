@@ -186,7 +186,7 @@ class PinInput extends Component {
   }
 }
 
-const PinCard = ({selectedImageAttrs}) => {  
+const PinCard = ({selectedImageAttrs}) => (
   <div className="pin-preview">
     <Card
       style={{ maxWidth: "60%" }}
@@ -194,7 +194,7 @@ const PinCard = ({selectedImageAttrs}) => {
     >
     </Card>
   </div>
-};
+);
 
 const ImageSelector = ({imageAttrs,selectImage}) => (     
   
