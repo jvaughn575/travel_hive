@@ -108,10 +108,24 @@
     }
 }
 
+/* Antd component overrides */
+
+.anticon {
+  margin-top: 0px;
+}
+
 /* Antd message component override */
 .ant-message {
   color: #fff; /* White text color */
 }
 .ant-message-notice-content {
   background:#333;
+}
+
+/* Over riding AntD CSS */
+/*Changes the styling of the avatar in the header */
+.ant-avatar.ant-avatar-lg.ant-avatar-square.ant-avatar-image {
+  border-radius: 50px;
+  width: 90px;
+  height: 90px;
 }
