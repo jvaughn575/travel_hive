@@ -11,6 +11,7 @@
 
 # misc
 /config/config.js
+/config/dbMigrationConfig.json
 .DS_Store
 .env.local
 .env.development.local
