@@ -8,6 +8,10 @@ module.exports = {
         type:Sequelize.UUID,
         default: Sequelize.UUIDV4
       },     
+      userId: {
+        type: Sequelize.UUID,
+        allowNull: false,
+      },   
       image: {
         type: Sequelize.TEXT
       },
