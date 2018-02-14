@@ -16,15 +16,8 @@ class LoginForm extends React.Component {
           if(user){
             const firstname = user.user.split(" ")[0];
             message.success("Welcome back, " + firstname);
-            let base64image = undefined;
-            // Temp fix until database migration. Need to store profile image as base64 string instead of blob
-            // in db.
-            try{
-              base64image = String.fromCharCode.apply(null, new Uint16Array(user.profileImage.data));
-            }
-            catch(error) {
-              base64image = "https://robohash.org/User";
-            }
+            let base64image = undefined;           
+            base64image = user.profileImage;            
             this.props.dispatch({type:'user/logInUser'});   // antd dva operation to change isLoggedIn state to true
             this.props.dispatch({type:'user/updateProfileImage', payload:base64image})
             this.props.dispatch({type: 'user/updateBioText', payload: user.bioText})
