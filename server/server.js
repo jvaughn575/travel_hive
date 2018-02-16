@@ -1,6 +1,7 @@
 import express from 'express';
 import {connectToMysqlDB} from './connectToMysqlDB';
 import {UserModel} from './models/userModel';
+import {InspirationModel} from './models/inspiration';
 import {passportStrat} from '../config/passportStrategy';
 
 export const app = express();
@@ -11,9 +12,10 @@ const session = require('express-session');
 const env = process.env.node_env;
 
 (async function(){
-  let mysqlDB = await connectToMysqlDB()
-  let userModel = await UserModel(mysqlDB.sequalizeDB)
-  let passport = await passportStrat(userModel)
+  let mysqlDB = await connectToMysqlDB();
+  let userModel = await UserModel(mysqlDB.sequalizeDB);  
+  let inspirationModel = await InspirationModel(mysqlDB.sequalizeDB);
+  let passport = await passportStrat(userModel);
 
   app.use(bodyParser.json());
 
@@ -105,7 +107,7 @@ const env = process.env.node_env;
     }
   );
 
-  // Profile routes
+  /************* Profile routes ***********************/
   router.post('/profile', userAuthenticated,
     (req, res) => {         
       let paramToUpdate = Object.keys(req.body)[0];   
@@ -133,6 +135,21 @@ const env = process.env.node_env;
     }
   );
   /*****************************************/   
+
+  /************** Inspiration Routes ********************/
+  router.post('/inspiration', userAuthenticated,
+    (req, res) => {
+     inspirationModel.create({userId:req.user.id, image: req.body.image, description: req.body.description})
+      .then(() => {
+        res.status(200).send({message: 'Inspiration successfully saved!'})
+      }).catch(error => {
+        console.log(error);
+        res.status(406).send({message: 'Inspiration was not saved!'})
+      })
+    }
+); 
+
+  /**************************************************** */
       
   // Register all routes with api prefix
   app.use('/api', router);
