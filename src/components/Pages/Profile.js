@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import dva, { connect } from 'dva';
 import map from './images/map.png';
 import prof_pic from './images/profile_pic.png';
-import {addProfilePhoto, addBioText, getPictures} from '../../userApi';
+import {addProfilePhoto, addBioText, getPictures,getBase64ImgFromUrl, addInspiration} from '../../userApi';
 import {
   Card,
   Upload,
@@ -204,7 +204,7 @@ const ImageSelector = ({imageAttrs,selectImage}) => (
   </div>
 );
 
-class BookmarkInspirtaion extends React.Component {
+class BookmarkInspirtaion extends React.Component {  
   state = {
     loading: false,
     visible: false,
@@ -217,7 +217,14 @@ class BookmarkInspirtaion extends React.Component {
       visible: true,
     });
   }
-  handleOk = () => {
+  handleOk = () => {    
+    addInspiration({image: this.state.selectedImageAttrs.src, description:"Test run"}).then(response => {
+      if ( response ){
+        message.success("Inspiration added!");
+      }  else {
+        message.error("Inspiration was not saved!");
+      }
+    });
     this.setState({ loading: true });
     setTimeout(() => {
       this.setState({ loading: false, visible: false });
@@ -225,11 +232,13 @@ class BookmarkInspirtaion extends React.Component {
   }
   handleCancel = () => {
     this.setState({ visible: false });
-  }
-  selectImage = (src,e) => {
-    console.log("Image selected",src);    
-    this.setState({selectedImageAttrs:{src:src}}, this.setState({imageChosen: true}));
-  }
+  }  
+  selectImage = (src,e) => {        
+    getBase64ImgFromUrl(src).then(result => {
+      this.setState({selectedImageAttrs:{src: result}});
+      this.setState({imageChosen: true});    
+    });
+  } 
   updateImages = (imageAttrs) => {    
     this.setState({imageAttrs: imageAttrs});
   }
