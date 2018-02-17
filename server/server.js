@@ -138,10 +138,10 @@ const env = process.env.node_env;
 
   /************** Inspiration Routes ********************/
   router.post('/inspiration', userAuthenticated,
-    (req, res) => {
-     inspirationModel.create({userId:req.user.id, image: req.body.image, description: req.body.description})
-      .then(() => {
-        res.status(200).send({message: 'Inspiration successfully saved!'})
+    (req, res) => {     
+     inspirationModel.create({userId: req.user.id, image: req.body.image, description: req.body.description})      
+      .then((inspiration) => {          
+        res.status(200).send({message: 'Inspiration successfully saved!'})        
       }).catch(error => {
         console.log(error);
         res.status(406).send({message: 'Inspiration was not saved!'})

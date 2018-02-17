@@ -13,7 +13,11 @@
       },  
       description: {
         type: Sequelize.STRING,
-      }  
+      },
+      userId: {
+        type: Sequelize.UUID,
+        allowNull: false,
+      },  
     });
     Inspiration.associate = models => {
       Inspiration.belongsTo(models.User);
