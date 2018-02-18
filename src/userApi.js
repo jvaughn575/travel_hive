@@ -163,3 +163,20 @@ export function addInspiration(inspiration) {
     });
 }
 /***************************************************************/
+
+/************* Get Inspirations ********************************/
+export function getInspirations(){
+  return fetch(`${api}/inspiration`, {
+    ...baseOptions,   
+  })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then(data => data ? data : null)
+    .catch(error => {
+      console.log(error);
+    });
+}
+/***************************************************************/
