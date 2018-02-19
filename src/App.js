@@ -23,13 +23,14 @@ import {InspirationPage} from './components/Pages/Inspiration';
 import {Plan} from './components/Pages/Plan';
 import {Experience} from './components/Pages/Experience';
 import {Connect} from './components/Pages/Connect';
+import {Explore} from './components/Pages/Explore';
 
 import models from './models/user';
 import { loadState, saveState } from './models/localStorage';
 import { logoutUser } from './userApi';
 
 // dva hook method triggers when app state changes
-const onStateChange = (info) => {  
+const onStateChange = (info) => {
   saveState(info);
 }
 
@@ -61,18 +62,19 @@ const DefaultLayout = ({children}) => (
 
 export const App = connect(( { user } ) => ({
   user
-}))(function(props){     
+}))(function(props){
   return(
 <Router>
 <DefaultLayout>
   <div>
         <Route path="/join" component={WrappedRegistrationForm} />
-        <Route path="/login" component={WrappedLoginForm} />        
+        <Route path="/login" component={WrappedLoginForm} />
         <Route path="/profile" render={()=><ProfilePage appState={props}/>}/>
         <Route path="/inspiration" component={InspirationPage} />
         <Route path="/plan" component={Plan} />
         <Route path="/experience" component={Experience} />
         <Route path="/connect" component={Connect} />
+        <Route path="/explore" component={Explore} />
         <Route path="/api/version" component={ApiVersion} />
   </div>
 </DefaultLayout>
@@ -95,9 +97,9 @@ const JoinLoginHeader = (
 );
 
 const onLogOut = ({key}) => {
-  if ( key === "1"){       
+  if ( key === "1"){
     logoutUser();
-    app._store.dispatch({type:'user/logOutUser'}); // alternate way to connect to the app store/state dispatcher    
+    app._store.dispatch({type:'user/logOutUser'}); // alternate way to connect to the app store/state dispatcher
     saveState(undefined);
   }
 }
@@ -110,7 +112,7 @@ const menu = (
     <Menu.Item  key="1">
       <a href="/login">Logout</a>
     </Menu.Item>
-    <Menu.Divider />    
+    <Menu.Divider />
   </Menu>
 );
 
@@ -120,18 +122,18 @@ const LoggedInHeader = (props) => (
           <a href='./'><img src={logo} alt="logo"className='logo'/></a>
       </div>
       <div className='avatar-container'>
-        <Avatar shape="square" size="large" src={props.profileImage} />   
+        <Avatar shape="square" size="large" src={props.profileImage} />
         <Dropdown overlay = {menu}>
           <Icon type="down" />
-         </Dropdown>    
-      </div>    
+         </Dropdown>
+      </div>
 
     </Header>
 );
 
 export const AppHeader = connect(( {user}) => ({
     user
-}))(function(props){ 
+}))(function(props){
   return (
     <Layout>
     {props.user.isLoggedIn ? <LoggedInHeader profileImage={props.user.profileImage}/> : JoinLoginHeader}
@@ -146,6 +148,7 @@ export const AppHeader = connect(( {user}) => ({
         <Menu.Item key="2"><Link to="/plan"><Icon type="compass" />Plan</Link></Menu.Item>
         <Menu.Item key="3"><Link to="/experience"><Icon type="global" />Experience</Link></Menu.Item>
         <Menu.Item key="4"><Link to="/connect"><Icon type="sync" />Connect</Link></Menu.Item>
+        <Menu.Item key="5" id="explore"><Link to="/explore"><Icon type="search" />Explore</Link></Menu.Item>
       </Menu>
     </div>
     </Layout>

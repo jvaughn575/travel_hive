@@ -163,7 +163,7 @@ class PinInput extends Component {
   handleChange(event) {
     console.log(event.target.value);
     this.setState({ url: event.target.value });
-    getPictures(event.target.value).then(imageAttrs => this.props.updateImages(imageAttrs));    
+    getPictures(event.target.value).then(imageAttrs => this.props.updateImages(imageAttrs));
   }
 
   handleSubmit(event) {
@@ -196,10 +196,10 @@ const PinCard = ({selectedImageAttrs}) => (
   </div>
 );
 
-const ImageSelector = ({imageAttrs,selectImage}) => (     
-  
+const ImageSelector = ({imageAttrs,selectImage}) => (
+
   <div >
-    <h1>Select A Image</h1> 
+    <h1>Select A Image</h1>
     {imageAttrs.map((imageAttrs,index) => <img key={index} onClick={selectImage.bind(this,imageAttrs.src)} src={imageAttrs.src} alt={imageAttrs.alt}  style={{maxWidth:"100px"}}  />)}
   </div>
 );
@@ -239,10 +239,10 @@ class BookmarkInspirtaion extends React.Component {
       this.setState({imageChosen: true});    
     });
   } 
-  updateImages = (imageAttrs) => {    
+  updateImages = (imageAttrs) => {
     this.setState({imageAttrs: imageAttrs});
   }
-  render() {        
+  render() {
     const { visible, loading } = this.state;
     return (
       <div>
@@ -262,7 +262,7 @@ class BookmarkInspirtaion extends React.Component {
           ]}
         >
           <PinInput updateImages={this.updateImages}/>
-          
+
           {this.state.imageChosen ? <PinCard selectedImageAttrs = {this.state.selectedImageAttrs} /> :
                                     <ImageSelector selectImage = {this.selectImage} imageAttrs = {this.state.imageAttrs}/>}
         </Modal>
@@ -273,8 +273,7 @@ class BookmarkInspirtaion extends React.Component {
 
 const ProfilePic = ({ src }) => (
   <Card
-    style={{ width: 140 }}
-    cover={<img src={src} />}
+    cover={<img src={src} id="profile-avatar"/>}
   />
 )
 
