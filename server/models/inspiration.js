@@ -5,15 +5,19 @@
       id: {
         allowNull: false,
         primaryKey: true,
-        default: Sequelize.UUIDV4,
-        type: Sequelize.UUIDV4,        
+        defaultValue: Sequelize.UUIDV4,
+        type: Sequelize.UUID,        
       },    
       image: {
         type: Sequelize.TEXT,
       },  
       description: {
         type: Sequelize.STRING,
-      }  
+      },
+      userId: {
+        type: Sequelize.UUID,
+        allowNull: false,
+      },  
     });
     Inspiration.associate = models => {
       Inspiration.belongsTo(models.User);

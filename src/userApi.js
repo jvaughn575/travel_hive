@@ -133,3 +133,50 @@ export function getPictures(url){
   })
   
 };
+
+/********* Add inspiration to database functions *************/
+export function getBase64ImgFromUrl(url) {
+  const proxy = "http://cors-proxy.htmldriven.com/?url=";
+  const result =  fetch(url).then(response => response.blob())
+    .then(async blob => {
+      const base64Url = await getBase64(blob);  
+      return base64Url;
+  
+  })
+  return result;
+}
+
+export function addInspiration(inspiration) {
+  return fetch(`${api}/inspiration`, {
+    ...baseOptions,
+    method: 'POST',
+    body: JSON.stringify({ image: inspiration.image, description: inspiration.description }),
+  })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then(data => data ? data.message : null)
+    .catch(error => {
+      console.log(error);
+    });
+}
+/***************************************************************/
+
+/************* Get Inspirations ********************************/
+export function getInspirations(){
+  return fetch(`${api}/inspiration`, {
+    ...baseOptions,   
+  })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then(data => data ? data : null)
+    .catch(error => {
+      console.log(error);
+    });
+}
+/***************************************************************/
