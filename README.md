@@ -20,7 +20,7 @@ If using MAMP set port to 8889.
 
 
 
-![Migrations](https://github.com/sequelize/cli)
+[Migrations](https://github.com/sequelize/cli)
 run `npm run db:migrate`
 
 
