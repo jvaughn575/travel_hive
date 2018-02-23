@@ -27,6 +27,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "db:create": "docker run --name travel_hive_mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=\"root\" -dit mysql",
+    "db:migrate": "./node_modules/.bin/sequelize db:migrate",
     "db:destroy": "docker rm travel_hive_mysql",
     "db:start": "docker start travel_hive_mysql",
     "db:stop": "docker stop travel_hive_mysql"

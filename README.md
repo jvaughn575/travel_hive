@@ -18,6 +18,13 @@ If using MAMP set port to 8889.
 4. open another terminal/cmd
 5. run `npm run server` in second terminal/cmd
 
+
+
+![Migrations](https://github.com/sequelize/cli)
+run `npm run db:migrate`
+
+
+
 - localhost:3000/ will take you to the home page.
 
 - localhost:3000/api/version will fetch the version number from the express api.
