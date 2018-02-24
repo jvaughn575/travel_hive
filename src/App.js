@@ -25,7 +25,9 @@ import {Experience} from './components/Pages/Experience';
 import {Connect} from './components/Pages/Connect';
 import {Explore} from './components/Pages/Explore';
 
-import models from './models/user';
+import user from './models/user';
+import inspiration from './models/inspiration';
+
 import { loadState, saveState } from './models/localStorage';
 import { logoutUser } from './userApi';
 
@@ -41,7 +43,8 @@ export const app = dva({
 });
 
 // Create model
-app.model(models);
+app.model(user);
+app.model(inspiration);
 
 const { Header, Footer, Content } = Layout;
 
@@ -60,8 +63,9 @@ const DefaultLayout = ({children}) => (
   </div>
 );
 
-export const App = connect(( { user } ) => ({
-  user
+export const App = connect(( { user, inspiration } ) => ({
+  user,
+  inspiration
 }))(function(props){
   return(
 <Router>

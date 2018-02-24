@@ -14,8 +14,11 @@ import {
   Row,
   Col,
   Form,
-  Divider
+  Divider,
+  Spin
 } from 'antd';
+
+const { Meta } = Card;
 
 function getBase64(img, callback) {
   return new Promise((resolve, reject) => {
@@ -154,70 +157,93 @@ class PinInput extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { url: '' };
+    this.state = {
+      url: '',
+      title: '',
+      loading: false
+     };
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleTitleChange = this.handleTitleChange.bind(this);
+    this.handleUrlChange = this.handleUrlChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
+  handleTitleChange(event) {
     console.log(event.target.value);
-    this.setState({ url: event.target.value });
-    getPictures(event.target.value).then(imageAttrs => this.props.updateImages(imageAttrs));
+    this.setState({ title: event.target.value });
   }
+
+  handleUrlChange(event) {
+    this.setState({
+      url: event.target.value,
+      loading: true
+    });
+    getPictures(event.target.value).then(imageAttrs => {
+      this.props.updateImages(imageAttrs);
+      this.setState({ loading:false })
+    }
+
+  )};
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log('New Pin URL: ' + this.state.url);
   }
 
   render() {
     return (
       <Form className="bookmark-inspiration" onSubmit={this.handleSubmit}>
-        <Input placeholder="Add A Title" style={{ maxWidth:"50%", marginBottom: "7px" }}/>
+        <Input
+          placeholder="Add A Title"
+          value={this.state.title}
+          onChange={this.handleTitleChange}
+          style={{ maxWidth:"50%", marginBottom: "7px" }}/>
         <Input
           placeholder="Paste URL"
           value={this.state.url}
-          onChange={this.handleChange}
+          onChange={this.handleUrlChange}
           style={{ maxWidth:"80%" }}
         />
+        <Spin spinning={this.state.loading}/>
       </Form>
     );
   }
 }
-
-const PinCard = ({selectedImageAttrs}) => (
+const PinCard = ({ selectedImageAttrs, handleChange, title }) => (
   <div className="pin-preview">
-    <Card
-      style={{ maxWidth: "60%" }}
-      cover={<img src={selectedImageAttrs.src} alt="" />}
-    >
+    <Card style={{ maxWidth: '60%' }} cover={<img src={selectedImageAttrs.src} alt="" />}>
+      <Input type="text" value={title} onChange={handleChange} placeholder="Add Title..." />
     </Card>
   </div>
 );
 
 const ImageSelector = ({imageAttrs,selectImage}) => (
-
   <div >
-    <h1>Select A Image</h1>
+    <h1>Select An Image</h1>
     {imageAttrs.map((imageAttrs,index) => <img key={index} onClick={selectImage.bind(this,imageAttrs.src)} src={imageAttrs.src} alt={imageAttrs.alt}  style={{maxWidth:"100px"}}  />)}
   </div>
 );
 
-class BookmarkInspirtaion extends React.Component {  
+class BookmarkInspirtaion extends React.Component {
   state = {
     loading: false,
     visible: false,
     imageChosen: false,
     selectedImageAttrs: null,
     imageAttrs: [],
+    title: ''
   }
   showModal = () => {
     this.setState({
       visible: true,
     });
   }
-  handleOk = () => {    
+  handleOk = () => {
+    this.props.appState.dispatch({
+            type: 'inspiration/addInspiration',
+            payload: {
+              title: this.state.title,
+              image: this.state.selectedImageAttrs.src,
+            }}),
     addInspiration({image: this.state.selectedImageAttrs.src, description:"Test run"}).then(response => {
       if ( response ){
         message.success("Inspiration added!");
@@ -225,25 +251,30 @@ class BookmarkInspirtaion extends React.Component {
         message.error("Inspiration was not saved!");
       }
     });
-    this.setState({ loading: true });
+    this.setState({ loading: true, imageChosen: false, selectedImageAttrs: null, title: "" });
     setTimeout(() => {
       this.setState({ loading: false, visible: false });
     }, 3000);
   }
   handleCancel = () => {
     this.setState({ visible: false });
-  }  
-  selectImage = (src,e) => {        
+  }
+handleTitleChange = e => this.setState({ title: e.target.value });
+  selectImage = (src,e) => {
     getBase64ImgFromUrl(src).then(result => {
       this.setState({selectedImageAttrs:{src: result}});
-      this.setState({imageChosen: true});    
+      this.setState({imageChosen: true});
     });
-  } 
-  updateImages = (imageAttrs) => {
-    this.setState({imageAttrs: imageAttrs});
   }
+
+  updateImages = (imageAttrs) => {
+    this.setState({imageAttrs: imageAttrs, loading: false});
+    }
+
   render() {
+
     const { visible, loading } = this.state;
+
     return (
       <div>
         <Button icon="plus" onClick={this.showModal}>
@@ -261,10 +292,12 @@ class BookmarkInspirtaion extends React.Component {
             </Button>,
           ]}
         >
-          <PinInput updateImages={this.updateImages}/>
+          <PinInput updateImages={this.updateImages} />
 
-          {this.state.imageChosen ? <PinCard selectedImageAttrs = {this.state.selectedImageAttrs} /> :
+          {this.state.imageChosen ? <PinCard selectedImageAttrs = {this.state.selectedImageAttrs} handleChange={this.handleTitleChange} title={this.state.title} /> :
                                     <ImageSelector selectImage = {this.selectImage} imageAttrs = {this.state.imageAttrs}/>}
+
+
         </Modal>
       </div>
     );
@@ -292,12 +325,13 @@ const Map = () => (
 export class ProfilePage extends React.Component {
   state = {
     pic: this.props.appState.user.profileImage,
-    bio: this.props.appState.user.bioText
+    bio: this.props.appState.user.bioText,
   }
 
   handleProfileChange = data => {
     this.setState(data)
   }
+
 
   render() {
     return (
@@ -317,9 +351,19 @@ export class ProfilePage extends React.Component {
       <Divider>My Inspirations</Divider>
       <Row type="flex" justify="space-around">
         <Col lg={{ span: 8, offset: 16 }}>
-          <BookmarkInspirtaion/>
+
+          <BookmarkInspirtaion appState={this.props.appState} />
         </Col>
       </Row>
+      <Row type="flex" justify="space-around">
+         <Col lg={{ span: 8, offset: 16 }}>
+           {this.props.appState.inspiration.map(i => (
+             <Card style={{ maxWidth: '60%' }} cover={<img src={i.image} alt="" />}>
+               <Meta title={i.title} />
+             </Card>
+           ))}
+         </Col>
+       </Row>
       </div>
     )
   }
