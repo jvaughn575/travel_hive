@@ -21,6 +21,8 @@ import inspiration from "./models/inspiration";
 import { loadState, saveState } from "./models/localStorage";
 import { logoutUser } from "./userApi";
 
+import {ApiVersion } from "./components/apiVersion"
+
 // dva hook method triggers when app state changes
 const onStateChange = info => {
   saveState(info);
@@ -182,22 +184,6 @@ export const AppFooter = () => (
     </Footer>
   </Layout>
 );
-
-class ApiVersion extends Component {
-  state = { apiVersion: [] };
-  componentDidMount() {
-    fetch("/api/version")
-      .then(res => res.json())
-      .then(apiVersion => this.setState({ apiVersion }));
-  }
-  render() {
-    return (
-      <div>
-        <p>{this.state.apiVersion.version}</p>
-      </div>
-    );
-  }
-}
 
 var menuStyle = {
   lineHeight: "64px",
