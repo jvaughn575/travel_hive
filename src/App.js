@@ -20,6 +20,8 @@ import inspiration from "./models/inspiration";
 import {ApiVersion } from "./components/apiVersion"
 import {AppHeader } from "./components/appHeader"
 
+import {PrivateRoute} from "./components/privateRoute"
+
 
 const { Header, Footer, Content } = Layout;
 
@@ -48,13 +50,13 @@ export const App = connect(({ user, inspiration }) => ({
         <div>
           <Route path="/join" component={WrappedRegistrationForm} />
           <Route path="/login" component={WrappedLoginForm} />
-          <Route
+          <PrivateRoute
             path="/profile"
             render={() => <ProfilePage appState={props} />}
           />
           <Route path="/inspiration" component={InspirationPage} />
-          <Route path="/plan" component={Plan} />
-          <Route path="/experience" component={Experience} />
+          <PrivateRoute appState={props} path="/plan" component={Plan} />
+          <PrivateRoute appState={props} path="/experience" component={Experience} />
           <Route path="/connect" component={Connect} />
           <Route path="/explore" component={Explore} />
           <Route path="/api/version" component={ApiVersion} />

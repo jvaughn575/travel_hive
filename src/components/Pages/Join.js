@@ -22,17 +22,17 @@ class RegistrationForm extends React.Component {
         console.log('Received values of form: ', values);
         const { userName, email, password } = values;
         addUser(userName, email, password).then(user => {
-          if(user){            
+          if(user){
             message.success("Thanks for signing up! Get ready for an adventure!");
-            this.props.dispatch({type:'user/logInUser'});   // antd dva operation to change isLoggedIn state to yes   
+            this.props.dispatch({type:'user/logInUser'});   // antd dva operation to change isLoggedIn state to yes
             this.props.history.push('/Profile');
           } else {
             message.error("Signup process failed. Please try again!");
           }
 
-          
+
         });
-        
+
       }
     });
   }
@@ -91,7 +91,7 @@ class RegistrationForm extends React.Component {
     };
 
 	/* Might need to change layout to horizontal */
-	/* Input boxes need to be centered adding 
+	/* Input boxes need to be centered adding
 	   class to form messing up the input boxes */
     return (
       <div>
@@ -156,7 +156,10 @@ class RegistrationForm extends React.Component {
 
         <FormItem {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">Join</Button>
+          <br />
+          Already have an account? <a href="./Login">Log In.</a>
         </FormItem>
+
       </Form>
 
       <img src={`//robohash.org/${this.props.form.getFieldValue('email')}?size=200x200`} alt="" />
