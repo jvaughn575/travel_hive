@@ -135,3 +135,9 @@
   height: 210px;
   width: 210px;
 }
+
+/* Text style and color for Protected route join modal */
+.protected-route-modal {
+  color: #2FB1C0;
+  font-size: 2rem;
+}
