@@ -50,7 +50,7 @@ export const App = connect(({ user, inspiration }) => ({
         <div>
           <Route path="/join" component={WrappedRegistrationForm} />
           <Route path="/login" component={WrappedLoginForm} />
-          <PrivateRoute
+          <Route          
             path="/profile"
             render={() => <ProfilePage appState={props} />}
           />
