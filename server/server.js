@@ -3,6 +3,7 @@ import {connectToMysqlDB} from './connectToMysqlDB';
 import {UserModel} from '../models/userModel';
 import {InspirationModel} from '../models/inspiration';
 import {passportStrat} from '../config/passportStrategy';
+import logger from './utils/logger';
 
 export const app = express();
 export const httpServer = require('http').createServer(app);
@@ -100,8 +101,8 @@ const env = process.env.node_env;
   );    
 
   router.get('/logout', 
-    (req, res) => {
-      console.log("Logging User out!");
+    (req, res) => {      
+      logger("Logging User out!","info");
       req.logout();
       res.send(200);
     }
@@ -117,7 +118,7 @@ const env = process.env.node_env;
           bioText: req.body[paramToUpdate],
         }).then(() => {                   
           res.status(200).send({message: 'Bio updated successfully!'});
-        }).catch(error => {
+        }).catch(error => {          
           res.status(406).send({message: 'Bio update failed.'});
         })
         
@@ -181,6 +182,7 @@ router.get('/inspiration', userAuthenticated,
   /**********************************************************************/   
   } else {    
     httpServer.listen(port);
+    logger('Api Started','info');    
     console.log('Express api listening on port ' + port );
   }
 })()
