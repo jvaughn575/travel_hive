@@ -5,6 +5,12 @@ import {InspirationModel} from '../models/inspiration';
 import {passportStrat} from '../config/passportStrategy';
 import logger from './utils/logger';
 
+/*** Routes ***/
+import {UserLoginRouter} from './routes/userLoginRouter';
+import {ApiVersionRouter} from './routes/apiVersionRouter';
+import {ProfileRouter} from './routes/profileRouter';
+import {InspirationRouter} from './routes/inspirationRouter';
+
 export const app = express();
 export const httpServer = require('http').createServer(app);
 const port = process.env.PORT || 3001;
@@ -71,102 +77,12 @@ const env = process.env.node_env;
     } 
    /****************************************** */
 
-  /*************** Routes*******************/
-  router.get('/version', (req, res) => {
-    res.json({ version: "1.0.0"});
-  });
-
-  router.get('/loggedIn', (req,res) => {
-    res.json({ loggedIn: req.isAuthenticated() });
-  });
-
-  router.post('/join', passport.authenticate('local-join'), 
-    (req,res) => {
-      res.json({                  
-        message: "join",
-        user: req.user.username                                
-      });
-    }
-  );      
-      
-  router.post('/login', passport.authenticate('local-login'),     
-    (req, res) => {            
-      res.json({                   
-        message: "login",
-        user: req.user.username,
-        bioText: req.user.bioText,
-        profileImage: req.user.profileImg,        
-      });
-    }   
-  );    
-
-  router.get('/logout', 
-    (req, res) => {      
-      logger("Logging User out!","info");
-      req.logout();
-      res.send(200);
-    }
-  );
-
-  /************* Profile routes ***********************/
-  router.post('/profile', userAuthenticated,
-    (req, res) => {         
-      let paramToUpdate = Object.keys(req.body)[0];   
-      
-      if ( paramToUpdate === 'bioText'){
-        req.user.updateAttributes({
-          bioText: req.body[paramToUpdate],
-        }).then(() => {                   
-          res.status(200).send({message: 'Bio updated successfully!'});
-        }).catch(error => {          
-          res.status(406).send({message: 'Bio update failed.'});
-        })
-        
-      }         
-            
-      if( paramToUpdate === "profileImg" ){
-        req.user.updateAttributes({
-          profileImg: req.body[paramToUpdate],
-        }).then(() => {
-          res.status(200).send({message:'Profile pic upload successful.'})
-        }).catch(error => {
-          res.status(406).send({message: 'Profile pic upload failed.'})
-        })
-      }  
-    }
-  );
-  /*****************************************/   
-
-  /************** Inspiration Routes ********************/
-  router.post('/inspiration', userAuthenticated,
-    (req, res) => {     
-     inspirationModel.create({userId: req.user.id, image: req.body.image, description: req.body.description})      
-      .then((inspiration) => {          
-        res.status(200).send({message: 'Inspiration successfully saved!'})        
-      }).catch(error => {
-        console.log(error);
-        res.status(406).send({message: 'Inspiration was not saved!'})
-      })
-    }
-); 
-
-router.get('/inspiration', userAuthenticated,
-  (req, res) => {
-    inspirationModel
-      .findAndCountAll({
-        attributes: ['id','image','description'],
-        where: {
-          userId: req.user.id
-        }
-      }).then(result => {
-        res.status(200).json({inspirations: result.rows});
-      }).catch(error => {
-        res.status(400).send({message:'Bad Request. Inspirations not sent!'})
-      });      
-  }
-);
-
-  /**************************************************** */
+  /*************** Routes*******************/  
+  app.use('/',ApiVersionRouter(router,passport));
+  app.use('/',UserLoginRouter(router,passport));
+  app.use('/',ProfileRouter(router, passport,userAuthenticated));
+  app.use('/',InspirationRouter(router, passport, inspirationModel, userAuthenticated));
+  /*****************************************/
       
   // Register all routes with api prefix
   app.use('/api', router);
