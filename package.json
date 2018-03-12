@@ -32,8 +32,7 @@
     "db:destroy": "docker rm travel_hive_mysql",
     "db:start": "docker start travel_hive_mysql",
     "db:stop": "docker stop travel_hive_mysql"
-  },
-  "proxy": "http://localhost:3001",
+  },  
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
