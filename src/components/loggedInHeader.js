@@ -2,6 +2,7 @@ import React from "react";
 import { Layout, Icon, Avatar, Dropdown } from "antd";
 import logo from "./Pages/images/logo.png";
 import {menu } from "./menu"
+// const logo = <img src={window.location.origin + 'images/logo.png'} />;
 const { Header } = Layout;
 
 export const LoggedInHeader = props => (
