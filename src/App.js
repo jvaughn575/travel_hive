@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import { WrappedRegistrationForm } from "./components/Pages/Join";
 import { WrappedLoginForm } from "./components/Pages/Login";
-import { ProfilePage } from "./components/Pages/Profile";
+import { ProfilePage } from "./components/Pages/Profile/Profile";
 import { InspirationPage } from "./components/Pages/Inspiration";
 import { Plan } from "./components/Pages/Plan";
 import { Experience } from "./components/Pages/Experience";
