@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import dva, { connect } from "dva";
 import map from "./images/map.png";
-import prof_pic from "./images/profile_pic.png";
+
 import {
   addProfilePhoto,
   addBioText,
