@@ -2,17 +2,14 @@ import React, { Component } from "react";
 import dva, { connect } from "dva";
 import map from "../images/map.png";
 import prof_pic from "../images/profile_pic.png";
-import {
-  addProfilePhoto,
+import {  
   addBioText,
   getPictures,
   getBase64ImgFromUrl,
   addInspiration
 } from "../../../userApi";
 import {
-  Card,
-  Upload,
-  Icon,
+  Card, 
   message,
   Input,
   Modal,
@@ -24,70 +21,13 @@ import {
   Spin
 } from "antd";
 
-import {getBase64, beforeUpload} from "./profileHelper";
+/***************  Profile folder imports ****************/
+import {Avatar} from "./Avatar";
 
 const { Meta } = Card;
 
 
-class Avatar extends React.Component {
-  state = {
-    loading: false
-  };
-  handleChange = info => {
-    if (info.file.status === "done") {
-      getBase64(info.file.originFileObj).then(imageUrl => {
-        message.success("Profile image updated!");
-        this.props.appState.dispatch({
-          type: "user/updateProfileImage",
-          payload: imageUrl
-        }); // antd dva update to user profile image state
-        this.setState({
-          imageUrl,
-          loading: false
-        });
-        this.props.updateProfileState({ pic: imageUrl });
-      });
-    }
 
-    if (info.file.status === "uploading") {
-      this.setState({ loading: true });
-      return;
-    }
-
-    if (info.file.status === "error") {
-      message.error("Profile image update failed!");
-      this.setState({ loading: false });
-      return;
-    }
-  };
-  render() {
-    const uploadButton = (
-      <div>
-        <Icon type={this.state.loading ? "loading" : "plus"} />
-        <div className="ant-upload-text">Upload</div>
-      </div>
-    );
-    const imageUrl = this.state.imageUrl;
-    return (
-      <Upload
-        name="avatar"
-        customRequest={addProfilePhoto}
-        listType="picture-card"
-        className="avatar-uploader"
-        showUploadList={false}
-        action="/api/profile"
-        beforeUpload={beforeUpload}
-        onChange={this.handleChange}
-      >
-        {imageUrl ? (
-          <img src={imageUrl} className="upload-preview" alt="image preview" />
-        ) : (
-          uploadButton
-        )}
-      </Upload>
-    );
-  }
-}
 
 class EditProfile extends React.Component {
   state = { visible: false, bioValue: this.props.appState.user.bioText };
