@@ -8,7 +8,6 @@ export const JoinLoginHeader = (
   <Header className="header-container">
     <div>
       <a href="./">
-        //attr in the public directory need to be accessed using PUBLIC_URL
         <img src={process.env.PUBLIC_URL + 'images/logo.png'} alt="logo" className="logo" />
       </a>
     </div>
