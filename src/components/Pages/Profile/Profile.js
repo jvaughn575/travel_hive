@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import dva, { connect } from "dva";
-import map from "../images/map.png";
-import prof_pic from "../images/profile_pic.png";
+// import map from "../images/map.png";
+// import prof_pic from "../images/profile_pic.png";
 import {Card,Row,Col,Divider} from "antd";
 
 /***************  Profile folder imports ****************/
@@ -22,7 +22,9 @@ const Bio = ({ bio }) => (
   </div>
 );
 
-const Map = () => <Card cover={<img src={map} />} />;
+const Map = () => (
+  <Card cover={ <img src={process.env.PUBLIC_URL + 'images/map.png'} alt="map" className="map" /> } />
+);
 
 export class ProfilePage extends React.Component {
   state = {
