@@ -15,7 +15,7 @@
     "winston": "^2.4.0"
   },
   "scripts": {
-    "start": "cross-env react-scripts start",
+    "start": "node ./dist/server.js",
     "server": "cross-env NODE_ENV=development nodemon --exec babel-node ./server/server.js",
     "server:build": "babel server -s -D -d dist",
     "build": "react-scripts build",
