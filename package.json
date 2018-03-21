@@ -1,0 +1,41 @@
+{
+  "name": "travelhive_server",
+  "version": "0.1.0",
+  "main": "./server/server.js",
+  "private": true,
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "mysql": "^2.15.0",
+    "mysql2": "^1.5.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "sequelize": "^4.28.6",
+    "sequelize-cli": "^3.2.0",
+    "winston": "^2.4.0"
+  },
+  "scripts": {
+    "start": "node ./server/server.js",
+    "build": "babel ./server -s -D -d dist --presets es2015,stage-0"
+  },
+  "env": {
+    "node":true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jvaughn575/travel_hive.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jvaughn575/travel_hive/issues"
+  },
+  "homepage": "https://github.com/jvaughn575/travel_hive#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1"
+  }
+}
