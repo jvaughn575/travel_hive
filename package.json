@@ -24,6 +24,7 @@
   "scripts": {
     "start": "cross-env react-scripts start",
     "server": "cross-env NODE_ENV=development nodemon --exec babel-node ./server/server.js",
+    "server:build": "babel server -s -D -d dist",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
@@ -32,9 +33,10 @@
     "db:destroy": "docker rm travel_hive_mysql",
     "db:start": "docker start travel_hive_mysql",
     "db:stop": "docker stop travel_hive_mysql"
-  },  
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-0": "^6.24.1",
     "cross-env": "^5.1.3",

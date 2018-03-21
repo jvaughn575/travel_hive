@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 let mysql = require('mysql');
+import "babel-polyfill";
 import {Config} from '../config/config'
 
 // Database Connection Setup
