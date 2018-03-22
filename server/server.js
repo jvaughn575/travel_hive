@@ -1,8 +1,8 @@
 import express from 'express';
 import {connectToMysqlDB} from './connectToMysqlDB';
-import {UserModel} from '../models/userModel';
-import {InspirationModel} from '../models/inspiration';
-import {passportStrat} from '../config/passportStrategy';
+import {UserModel} from './models/userModel';
+import {InspirationModel} from './models/inspiration';
+import {passportStrat} from './config/passportStrategy';
 import logger from './utils/logger';
 
 /*** Routes ***/

@@ -16,8 +16,9 @@
     "winston": "^2.4.0"
   },
   "scripts": {
-    "start": "node ./server/server.js",
-    "build": "babel ./server -s -D -d dist --presets es2015,stage-0"
+    "start": "babel-node ./server/server.js",
+    "build": "babel server -d dist ",
+    "serve": "node dist/server.js"
   },
   "env": {
     "node":true

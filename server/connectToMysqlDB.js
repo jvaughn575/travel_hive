@@ -1,6 +1,7 @@
+require('babel-polyfill');
 const Sequelize = require('sequelize');
 let mysql = require('mysql');
-import {Config} from '../config/config'
+import {Config} from './config/config'
 
 // Database Connection Setup
 // must manually create database in mamp with name 'travelhive_user_db'
