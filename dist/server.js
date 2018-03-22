@@ -38,7 +38,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 var app = exports.app = (0, _express2.default)();
 var httpServer = exports.httpServer = require('http').createServer(app);
-var port = process.env.PORT || 3001;
+var port = process.env.PORT || 8080;
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var env = process.env.node_env;
