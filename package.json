@@ -16,7 +16,8 @@
     "winston": "^2.4.0"
   },
   "scripts": {
-    "start": "babel-node ./server/server.js",
+    "start": "node dist/server.js",
+    "dev-start": "babel-node ./server/server.js",
     "build": "babel server -d dist ",
     "serve": "node dist/server.js"
   },

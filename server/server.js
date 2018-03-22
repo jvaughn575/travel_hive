@@ -13,28 +13,35 @@ import {InspirationRouter} from './routes/inspirationRouter';
 
 export const app = express();
 export const httpServer = require('http').createServer(app);
-const port = process.env.PORT || 3001;
+
+const port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
+      ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
+      
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const env = process.env.node_env;
 
 (async function(){
-  let mysqlDB = await connectToMysqlDB();
-  let userModel = await UserModel(mysqlDB.sequalizeDB);  
-  let inspirationModel = await InspirationModel(mysqlDB.sequalizeDB);
-  let passport = await passportStrat(userModel);
+  let mysqlDB = await connectToMysqlDB().then((value) =>{return value}, (reason) =>{return null} );
+  console.log("After connect to sql");
 
-  app.use(bodyParser.json());
+  if(mysqlDB){
+    let userModel = await UserModel(mysqlDB.sequalizeDB);  
+    let inspirationModel = await InspirationModel(mysqlDB.sequalizeDB);
+    let passport = await passportStrat(userModel);
 
-  // Passport requirements
-  // Not secure must change before production
-  app.use(session({ 
-    secret: 'jk_travelhive',
-    resave: false,
-    saveUninitialized: false,
-  }));
-  app.use(passport.initialize());
-  app.use(passport.session());
+      // Passport requirements
+    // Not secure must change before production
+    app.use(session({ 
+      secret: 'jk_travelhive',
+      resave: false,
+      saveUninitialized: false,
+    }));
+    app.use(passport.initialize());
+    app.use(passport.session());
+    
+  
+  app.use(bodyParser.json());  
 
   app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Credentials', true);
@@ -87,6 +94,8 @@ const env = process.env.node_env;
       
   // Register all routes with api prefix
   app.use('/api', router);
+
+  }
   
   /* Needed for test otherwise sequelize can't find the database tables */
   if(env === 'test'){

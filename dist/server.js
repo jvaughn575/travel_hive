@@ -38,7 +38,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 var app = exports.app = (0, _express2.default)();
 var httpServer = exports.httpServer = require('http').createServer(app);
-var port = process.env.PORT || 3001;
+
+var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
+    ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
+
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var env = process.env.node_env;
@@ -50,28 +53,38 @@ _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return (0, _connectToMysqlDB.connectToMysqlDB)();
+          return (0, _connectToMysqlDB.connectToMysqlDB)().then(function (value) {
+            return value;
+          }, function (reason) {
+            return null;
+          });
 
         case 2:
           mysqlDB = _context.sent;
-          _context.next = 5;
+
+          console.log("After connect to sql");
+
+          if (!mysqlDB) {
+            _context.next = 27;
+            break;
+          }
+
+          _context.next = 7;
           return (0, _userModel.UserModel)(mysqlDB.sequalizeDB);
 
-        case 5:
+        case 7:
           userModel = _context.sent;
-          _context.next = 8;
+          _context.next = 10;
           return (0, _inspiration.InspirationModel)(mysqlDB.sequalizeDB);
 
-        case 8:
+        case 10:
           inspirationModel = _context.sent;
-          _context.next = 11;
+          _context.next = 13;
           return (0, _passportStrategy.passportStrat)(userModel);
 
-        case 11:
+        case 13:
           passport = _context.sent;
 
-
-          app.use(bodyParser.json());
 
           // Passport requirements
           // Not secure must change before production
@@ -82,6 +95,8 @@ _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
           }));
           app.use(passport.initialize());
           app.use(passport.session());
+
+          app.use(bodyParser.json());
 
           app.use(function (req, res, next) {
             res.header('Access-Control-Allow-Credentials', true);
@@ -134,6 +149,8 @@ _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
           // Register all routes with api prefix
           app.use('/api', router);
 
+        case 27:
+
           /* Needed for test otherwise sequelize can't find the database tables */
           if (env === 'test') {
             mysqlDB.sequalizeDB.sync({ force: false }).then(function () {
@@ -149,7 +166,7 @@ _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
             console.log('Express api listening on port ' + port);
           }
 
-        case 26:
+        case 28:
         case 'end':
           return _context.stop();
       }
