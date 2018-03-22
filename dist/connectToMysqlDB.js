@@ -29,12 +29,15 @@ var connectToMysqlDB = exports.connectToMysqlDB = function () {
             return _context.abrupt('return', new Promise(function (resolve, reject) {
               mysqlConnection.connect(function (err) {
                 if (err) {
-                  console.error('error connecting: ' + err.stack);
+                  //console.error('error connecting: ' + err.stack);
+                  console.log('error connecting');
                   reject();
                 }
                 mysqlConnection.query('CREATE DATABASE IF NOT EXISTS ' + _config.Config.Database.name, function (error, results, fields) {
                   if (error) {
-                    throw 'cant create db name';
+                   // throw 'cant create db name';
+                   console.log('cant create db name')
+                   return;
                   }
                   mysqlConnection.changeUser({ database: _config.Config.Database.name }, function (err) {
                     if (err) throw err;
