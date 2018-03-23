@@ -39,6 +39,8 @@ var mysqlConnection = "";
 if(mysqlURL){
   //mysqlConnection = mysql.createConnection(mysqlURL);
   console.log("Setting up openshift connection parameters");
+  console.log("Parameters are: ",process.env.OPENSHIFT_MYSQL_DB_HOST,process.env.OPENSHIFT_MYSQL_DB_USERNAME,
+              process.env.OPENSHIFT_MYSQL_DB_PASSWORD,process.env.OPENSHIFT_MYSQL_DB_PORT,process.env.OPENSHIFT_APP_NAME);
   mysqlConnection = mysql.createConnection({
     host     : process.env.OPENSHIFT_MYSQL_DB_HOST,
     user     : process.env.OPENSHIFT_MYSQL_DB_USERNAME,
