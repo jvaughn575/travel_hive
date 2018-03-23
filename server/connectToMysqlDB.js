@@ -37,7 +37,8 @@ if(mysqlURL == null && process.env.DATABASE_SERVICE_NAME) {
 
 var mysqlConnection = "";
 if(mysqlURL){
-  //mysqlConnection = mysql.createConnection(mysqlURL);
+  mysqlConnection = mysql.createConnection(mysqlURL);
+  /*
   console.log("Setting up openshift connection parameters");
   console.log("Parameters are: ",process.env.OPENSHIFT_MYSQL_DB_HOST,process.env.OPENSHIFT_MYSQL_DB_USERNAME,
               process.env.OPENSHIFT_MYSQL_DB_PASSWORD,process.env.OPENSHIFT_MYSQL_DB_PORT,process.env.OPENSHIFT_APP_NAME);
@@ -48,6 +49,7 @@ if(mysqlURL){
     port     : process.env.OPENSHIFT_MYSQL_DB_PORT,
     database : process.env.OPENSHIFT_APP_NAME
    });
+   */
 } else {
   mysqlConnection = mysql.createConnection({user:Config.Database.user,password:Config.Database.password,port:Config.Database.options.port});
 }
