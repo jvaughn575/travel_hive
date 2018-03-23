@@ -18,7 +18,7 @@ var mysql = require('mysql');
 var mysqlURL = process.env.OPENSHIFT_MYSQL_DB_URL || process.env.MYSQL_URL,
     mysqlURLLabel = "";
 
-console.log("My SQL URL: ", process.env.MYSQL_URL);
+console.log("My SQL URL: ", process.env.MYSQL_URL, process.env);
 /*
 if(mysqlURL == null && process.env.DATABASE_SERVICE_NAME) {
   const mysqlServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
