@@ -3,10 +3,10 @@ const env = process.env.node_env;
 
 Config.Database = {
   "name": "travelhive_development_db",
-  "user": "root",
-  "password": "root",
+  "user": "USER",
+  "password": "PASS",
   "options": {
-    "host": "localhost",
+    "host": "172.30.108.129",
     "port": "3306",
     "dialect": "mysql"
   },
