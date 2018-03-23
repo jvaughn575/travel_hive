@@ -102,6 +102,11 @@ _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
             res.header('Access-Control-Allow-Credentials', true);
 
             /******* Change below line to restrict to our website origin *********/
+            if (req.method === "OPTIONS") {
+              res.header('Access-Control-Allow-Origin', req.headers.origin);
+            } else {
+              res.header('Access-Control-Allow-Origin', '*');
+            }
             res.header('Access-Control-Allow-Origin', "http://localhost:3000");
             res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH');
             res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');

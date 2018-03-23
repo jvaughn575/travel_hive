@@ -18,7 +18,7 @@ var mysql = require('mysql');
 var mysqlURL = process.env.OPENSHIFT_MYSQL_DB_URL || process.env.MYSQL_URL,
     mysqlURLLabel = "";
 
-console.log("My SQL URL: ", process.env.MYSQL_URL, process.env);
+console.log("My SQL URL: ", process.env.MYSQL_URL);
 /*
 if(mysqlURL == null && process.env.DATABASE_SERVICE_NAME) {
   const mysqlServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
@@ -48,7 +48,14 @@ if(mysqlURL == null && process.env.DATABASE_SERVICE_NAME) {
 
 var mysqlConnection = "";
 if (mysqlURL) {
-  mysqlConnection = mysql.createConnection(mysqlURL);
+  //mysqlConnection = mysql.createConnection(mysqlURL);
+  mysqlConnection = mysql.createConnection({
+    host: process.env.OPENSHIFT_MYSQL_DB_HOST,
+    user: process.env.OPENSHIFT_MYSQL_DB_USERNAME,
+    password: process.env.OPENSHIFT_MYSQL_DB_PASSWORD,
+    port: process.env.OPENSHIFT_MYSQL_DB_PORT,
+    database: process.env.OPENSHIFT_APP_NAME
+  });
 } else {
   mysqlConnection = mysql.createConnection({ user: _config.Config.Database.user, password: _config.Config.Database.password, port: _config.Config.Database.options.port });
 }

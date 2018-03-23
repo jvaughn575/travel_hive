@@ -37,7 +37,14 @@ if(mysqlURL == null && process.env.DATABASE_SERVICE_NAME) {
 
 var mysqlConnection = "";
 if(mysqlURL){
-  mysqlConnection = mysql.createConnection(mysqlURL);
+  //mysqlConnection = mysql.createConnection(mysqlURL);
+  mysqlConnection = mysql.createConnection({
+    host     : process.env.OPENSHIFT_MYSQL_DB_HOST,
+    user     : process.env.OPENSHIFT_MYSQL_DB_USERNAME,
+    password : process.env.OPENSHIFT_MYSQL_DB_PASSWORD,
+    port     : process.env.OPENSHIFT_MYSQL_DB_PORT,
+    database : process.env.OPENSHIFT_APP_NAME
+   });
 } else {
   mysqlConnection = mysql.createConnection({user:Config.Database.user,password:Config.Database.password,port:Config.Database.options.port});
 }
