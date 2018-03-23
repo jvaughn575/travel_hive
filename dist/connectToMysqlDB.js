@@ -49,6 +49,7 @@ if(mysqlURL == null && process.env.DATABASE_SERVICE_NAME) {
 var mysqlConnection = "";
 if (mysqlURL) {
   //mysqlConnection = mysql.createConnection(mysqlURL);
+  console.log("Setting up openshift connection parameters");
   mysqlConnection = mysql.createConnection({
     host: process.env.OPENSHIFT_MYSQL_DB_HOST,
     user: process.env.OPENSHIFT_MYSQL_DB_USERNAME,
@@ -59,7 +60,7 @@ if (mysqlURL) {
 } else {
   mysqlConnection = mysql.createConnection({ user: _config.Config.Database.user, password: _config.Config.Database.password, port: _config.Config.Database.options.port });
 }
-
+console.log("MYSQL connection", mysqlConnection);
 var connectToMysqlDB = exports.connectToMysqlDB = function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -69,7 +70,7 @@ var connectToMysqlDB = exports.connectToMysqlDB = function () {
             return _context.abrupt('return', new Promise(function (resolve, reject) {
               mysqlConnection.connect(function (err) {
                 if (err) {
-                  console.error('error connecting: '); //+ err.stack);
+                  console.error('error connecting: ' + err.stack);
                   reject();
                 }
                 mysqlConnection.query('CREATE DATABASE IF NOT EXISTS ' + _config.Config.Database.name, function (error, results, fields) {
