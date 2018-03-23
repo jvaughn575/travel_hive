@@ -107,8 +107,8 @@ const env = process.env.node_env;
     });
   /**********************************************************************/   
   } else {    
-    httpServer.listen(port);
+    httpServer.listen(port,ip);
     logger('Api Started','info');    
-    console.log('Express api listening on port ' + port );
+    console.log(`Express api listening on http://%s:%s`,ip,port );
   }
 })()

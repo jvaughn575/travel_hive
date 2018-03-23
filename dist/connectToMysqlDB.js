@@ -41,6 +41,7 @@ if (mysqlURL == null && process.env.DATABASE_SERVICE_NAME) {
 // must manually create database in mamp with name 'travelhive_user_db'
 
 //var mysqlConnection = mysql.createConnection({user:Config.Database.user,password:Config.Database.password,port:Config.Database.options.port});
+console.log("Sql connection string: ", mysqlURL, mysqlURLLabel);
 var mysqlConnection = mysql.createConnection(mysqlURL);
 
 var connectToMysqlDB = exports.connectToMysqlDB = function () {

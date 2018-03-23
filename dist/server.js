@@ -161,9 +161,9 @@ _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
             });
             /**********************************************************************/
           } else {
-            httpServer.listen(port);
+            httpServer.listen(port, ip);
             (0, _logger2.default)('Api Started', 'info');
-            console.log('Express api listening on port ' + port);
+            console.log('Express api listening on http://%s:%s', ip, port);
           }
 
         case 28:
