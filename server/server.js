@@ -47,7 +47,7 @@ const env = process.env.node_env;
     res.header('Access-Control-Allow-Credentials', true);
     
     /******* Change below line to restrict to our website origin *********/
-    res.header('Access-Control-Allow-Origin', req.headers.origin);    
+    res.header('Access-Control-Allow-Origin', "*");    
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
