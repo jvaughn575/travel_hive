@@ -17,32 +17,39 @@ var mysql = require('mysql');
 
 var mysqlURL = process.env.OPENSHIFT_MYSQL_DB_URL || process.env.MYSQL_URL,
     mysqlURLLabel = "";
+/*
+if(mysqlURL == null && process.env.DATABASE_SERVICE_NAME) {
+  const mysqlServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
+        mysqlHost = process.env[mysqlServiceName + '_SERVICE_HOST'],
+        mysqlPort = process.env[mysqlServiceName + '_SERVICE_PORT'],
+        mysqlDatabase = process.env[mysqlServiceName + '_DATABASE'],
+        mysqlPassword = process.env[mysqlServiceName + '_PASSWORD'],
+        mysqlUser = process.env[mysqlServiceName + '_USER'];
 
-if (mysqlURL == null && process.env.DATABASE_SERVICE_NAME) {
-  var mysqlServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
-      mysqlHost = process.env[mysqlServiceName + '_SERVICE_HOST'],
-      mysqlPort = process.env[mysqlServiceName + '_SERVICE_PORT'],
-      mysqlDatabase = process.env[mysqlServiceName + '_DATABASE'],
-      mysqlPassword = process.env[mysqlServiceName + '_PASSWORD'],
-      mysqlUser = process.env[mysqlServiceName + '_USER'];
-
-  if (mysqlHost && mysqlPort && mysqlDatabase) {
+  if (mysqlHost && mysqlPort && mysqlDatabase){
     mysqlURLLabel = mysqlURL = 'mysql://';
     if (mysqlUser && mysqlPassword) {
       mysqlURL += mysqlUser + ':' + mysqlPassword + '@';
     }
     // Provide UI label that excludes user id and pw
     mysqlURLLabel += mysqlHost + ':' + mysqlPort + '/' + mysqlDatabase;
-    mysqlURL += mysqlHost + ':' + mysqlPort + '/' + Database;
-  }
+    mysqlURL += mysqlHost + ':' +  mysqlPort + '/' + Database;
+  }      
 }
+*/
 
 // Database Connection Setup
 // must manually create database in mamp with name 'travelhive_user_db'
 
 //var mysqlConnection = mysql.createConnection({user:Config.Database.user,password:Config.Database.password,port:Config.Database.options.port});
-console.log("Sql connection string: ", mysqlURL, mysqlURLLabel);
-var mysqlConnection = mysql.createConnection(mysqlURL);
+//console.log("Sql connection string: ",mysqlURL,mysqlURLLabel);
+
+var mysqlConnection = "";
+if (mysqlURL) {
+  mysqlConnection = mysql.createConnection(mysqlURL);
+} else {
+  mysqlConnection = mysql.createConnection({ user: _config.Config.Database.user, password: _config.Config.Database.password, port: _config.Config.Database.options.port });
+}
 
 var connectToMysqlDB = exports.connectToMysqlDB = function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {

@@ -32,7 +32,13 @@ if(mysqlURL == null && process.env.DATABASE_SERVICE_NAME) {
 
 //var mysqlConnection = mysql.createConnection({user:Config.Database.user,password:Config.Database.password,port:Config.Database.options.port});
 //console.log("Sql connection string: ",mysqlURL,mysqlURLLabel);
-var mysqlConnection = mysql.createConnection(mysqlURL);
+
+var mysqlConnection = "";
+if(mysqlURL){
+  mysqlConnection = mysql.createConnection(mysqlURL);
+} else {
+  mysqlConnection = mysql.createConnection({user:Config.Database.user,password:Config.Database.password,port:Config.Database.options.port});
+}
 
 export let connectToMysqlDB = async function(){
   return new Promise(function(resolve, reject) {
