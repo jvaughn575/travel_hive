@@ -6,7 +6,7 @@ Config.Database = {
   "user": "USER",
   "password": "PASS",
   "options": {
-    "host": "172.30.108.129",
+    "host": "mysql",
     "port": "3306",
     "dialect": "mysql"
   },
